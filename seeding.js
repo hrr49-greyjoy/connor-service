@@ -20,7 +20,6 @@ connection = Promise.promisifyAll(connection);
 const randomBookingGenerator = (dates, connection) => {
 
   let promises1 = [];
-  let promises2 = [];
 
   for (let i = 0; i < dates.length; i++) {
     let chance = random.boolean();
@@ -28,29 +27,34 @@ const randomBookingGenerator = (dates, connection) => {
       continue;
     }
 
+    let tripLength = random.int(min =  2, max = 6);
+
     let check_in = dates[i];
-    let check_out = moment(check_in).add(3, 'days').format('YYYY-MM-DD');
+    let check_out = moment(check_in).add(tripLength, 'days').format('YYYY-MM-DD');
     let guests = random.int(min = 1, max = 5);
+    let price = 20 * (tripLength + 1);
 
     let queryString1 = `INSERT INTO RESERVATIONS (check_in, check_out, guests, total_price, listing_id)
-    VALUES (?, ?, ?, 600, 1)`;
-    promises1.push(connection.queryAsync(queryString1, [check_in, check_out, guests]));
+    VALUES (?, ?, ?, ?, 1)`;
+    promises1.push(connection.queryAsync(queryString1, [check_in, check_out, guests, price]));
 
-    let date = moment(check_in);
-    for (let i = 0; i < 4; i++) {
-      let date_ = date.format('YYYY-MM-DD');
-      let queryString2 = `UPDATE dates SET available = ? WHERE date_ = ?`;
-      promises2.push(connection.queryAsync(queryString2, [0, date_]));
-      date = date.add(1, 'days');
-    }
-    i += 7;
+    i += tripLength + 1;
   }
-  return Promise.all(promises1).then(() => Promise.all(promises2));
+  return Promise.all(promises1);
 };
 
-//STORE DATES SO WE CAN ITERATE THROUGH THEM LATER
-//TO GENERATE RANDOM BOOKINGS
-const dates = [];
+const dateGenerator = (numberOfDays) => {
+  const dates = [];
+
+  let today = moment();
+  for (let i =0; i < numberOfDays; i++) {
+    let date = today.format('YYYY-MM-DD');
+    dates.push(date);
+    today = moment(today).add(1, 'days');
+  }
+  return dates;
+};
+
 
 connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
 .then(() => {
@@ -67,21 +71,10 @@ connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(20),
     description VARCHAR(180),
+    price DOUBLE,
     PRIMARY KEY (id)
   );`;
   return connection.query(queryString)
-})
-.then((results) => {
-  let queryString = `CREATE TABLE dates (
-    id INT NOT NULL AUTO_INCREMENT,
-    date_ DATE,
-    available BIT,
-    price DOUBLE,
-    listing_id INT,
-    PRIMARY KEY (id),
-    FOREIGN KEY (listing_id) REFERENCES listings(id)
-  );`;
-  return connection.queryAsync(queryString)
 })
 .catch((err) => {
   if (err) throw err;
@@ -100,34 +93,17 @@ connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
   return connection.queryAsync(queryString);
 })
 .then(() => {
-  let queryString = `INSERT INTO listings (name, description)
-    VALUES (?, ?);`
+  let queryString = `INSERT INTO listings (name, description, price)
+    VALUES (?, ?, 20);`
 
     return connection.queryAsync(queryString, ['Mountain Park', 'luxurious glamping spot']);
-})
-.then(() => {
-
-  let promises = [];
-  let today = moment();
-
-  for (let i = 0; i < numberOfDays; i++) {
-    let date = today.format('YYYY-MM-DD');
-    dates.push(date);
-
-    let queryString = `INSERT INTO dates (date_, available, price, listing_id)
-      VALUES (?, 1, 200, 1)`;
-
-    promises.push(connection.queryAsync(queryString, [date]));
-
-    today = moment(today).add(1, 'days');
-  }
-  return Promise.all(promises);
 })
 .catch((err) => {
   if (err) throw err;
 })
 .then(() => {
   //GENERATE BOOKINGS
+  let dates = dateGenerator(numberOfDays);
   return randomBookingGenerator(dates, connection);
 })
 .catch((err) => {
@@ -137,3 +113,10 @@ connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
   connection.end();
 })
 
+//generate 365 dates, store in array
+
+//iterate over the array
+//  random chance of booking
+//  if no, continue
+//  otherwise
+//
