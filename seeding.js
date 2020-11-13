@@ -112,11 +112,3 @@ connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
 .then(() => {
   connection.end();
 })
-
-//generate 365 dates, store in array
-
-//iterate over the array
-//  random chance of booking
-//  if no, continue
-//  otherwise
-//
