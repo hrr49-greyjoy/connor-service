@@ -1,0 +1,14 @@
+.dateWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.monthWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.weekWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
