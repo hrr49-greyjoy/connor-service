@@ -1,6 +1,22 @@
 .appContainer {
-  display: inline-block;
-  width: 23.5%;
+  display: block;
+  width: 400px;
   font-family: Calibre, Helvetica, Arial, sans-serif;
+  border-style: solid;
+  border-width: thin;
+  border-color: #757575;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.priceContainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: #757575;
 }
 
