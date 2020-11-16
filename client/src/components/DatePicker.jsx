@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import styles from './styles/datePicker.module.css';
+import { isAvailableDate } from '../helpers/isAvailableDate.js';
+import { getBadDates } from '../helpers/dataHandlers.js';
 
 export class DatePicker extends Component {
 
@@ -15,8 +17,8 @@ export class DatePicker extends Component {
     this.handleChangeMonth = this.handleChangeMonth.bind(this);
   }
 
+
   handleChangeMonth(event) {
-    console.log(event.target);
     if (event.target.id === "btn-previous-month") {
       let previousMonth = moment(this.state.selectedMonth).subtract(1, 'months');
       this.setState({
@@ -43,7 +45,11 @@ export class DatePicker extends Component {
     let dates = [];
 
     for (let i = 0; i < 42; i++) {
-      dates.push(<div key={i} className={styles.day} data-date={startOfMonth.format('YYYY-MM-DD')}>{startOfMonth.format('DD')}</div>);
+      let unavailable;
+      if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.state.unavailableDates)) {
+        unavailable = styles.dayUnavailable;
+      }
+      dates.push(<div key={i} className={`${styles.day} ${unavailable}`} data-date={startOfMonth.format('YYYY-MM-DD')}>{startOfMonth.format('DD')}</div>);
       startOfMonth.add(1, 'days');
     }
 
@@ -51,10 +57,22 @@ export class DatePicker extends Component {
   }
 
   componentDidMount() {
-    let dates = this.createDates(this.state.selectedMonth);
-    this.setState({
-      dates
-    });
+    getBadDates()
+    .catch((err) => {
+      if (err) throw err;
+    })
+    .then((results) => {
+      this.setState({
+        unavailableDates: results.data
+      });
+    })
+    .then(() => {
+      let dates = this.createDates(this.state.selectedMonth);
+      this.setState({
+        dates
+      })
+    })
+
   }
 
   componentDidUpdate() {

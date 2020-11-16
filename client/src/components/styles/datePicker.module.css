@@ -25,3 +25,7 @@
 .day:hover {
   cursor: pointer;
 }
+
+.dayUnavailable {
+  background-color: #757575;
+}

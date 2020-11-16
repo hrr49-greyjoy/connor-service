@@ -61,7 +61,6 @@ export class App extends React.Component {
       this.setState({
         currentPicker: 'checkIn'
       }, () => {
-        console.log(this.state.currentPicker);
         this.removeInstantBookShowCalendar();
       })
 
@@ -70,18 +69,15 @@ export class App extends React.Component {
       this.setState({
         currentPicker: 'checkOut'
       }, () => {
-        console.log(this.state.currentPicker);
         this.removeInstantBookShowCalendar();
       })
     }
   }
 
   handleDateClick(event) {
-    console.log(event.target.dataset.date)
     let date = event.target.dataset.date;
 
     if (this.state.currentPicker === 'checkIn') {
-      console.log('hello');
       this.setState({
         checkIn: date,
         currentPicker: 'checkOut'
