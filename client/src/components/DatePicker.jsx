@@ -86,14 +86,13 @@ export class DatePicker extends Component {
 
   render() {
     return(
-      <div>
-      <div className="calendar-container">
+      <div className={styles.calendarContainer}>
 
-        <section className={styles.monthWrapper}>
+        <div className={styles.monthWrapper}>
         <div id="btn-previous-month"  className={styles.btnChangeMonth} onClick={(e) => this.handleChangeMonth(e)}>{"<"}</div>
-        <h2>{this.state.selectedMonth.format('MMMM YYYY')}</h2>
+        <div>{this.state.selectedMonth.format('MMMM YYYY')}</div>
         <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.handleChangeMonth(e)}>{">"}</div>
-        </section>
+        </div>
 
         <div className={styles.weekWrapper}>
           <div>S</div>
@@ -107,7 +106,6 @@ export class DatePicker extends Component {
 
         <div className={styles.dateWrapper} onClick={this.props.handleDateClick}>{this.state.dates.map((date) => date)}</div>
 
-      </div>
       </div>
     )
   }

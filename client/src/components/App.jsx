@@ -12,8 +12,9 @@ export class App extends React.Component {
     this.state = {
       showMainButton: true,
       showDatePicker: false,
-      checkIn: moment().format('YYYY-MM-DD'),
-      checkOut: moment().add(3, 'days').format('YYYY-MM-DD'),
+      showBookButton: false,
+      checkIn: null,
+      checkOut: null,
       guests: 3,
       currentPicker: null,
     };
@@ -32,11 +33,23 @@ export class App extends React.Component {
     })
   }
 
+  closeCalendarAddBook() {
+    console.log('called closeCalendarAddBook');
+    this.setState({
+      showDatePicker: false,
+      showBookButton: true
+    })
+  }
+
   handleMainButtonClick() {
     this.removeInstantBookShowCalendar();
     this.setState({
       currentPicker: 'checkIn'
     });
+  }
+
+  handleBookButtonClick() {
+    console.log('booked');
   }
 
   handleGuestChange(event) {
@@ -78,41 +91,104 @@ export class App extends React.Component {
     let date = event.target.dataset.date;
 
     if (this.state.currentPicker === 'checkIn') {
-      this.setState({
-        checkIn: date,
-        currentPicker: 'checkOut'
-      });
 
+      //if checkout is null
+      //  set checkin to date
+      //  set picker to checkout
+
+      //if checkout is after date
+      //  set checkin to date
+      //  set currentPicker to null
+      //  call closeCalendarAddBook
+
+      //if checkout is before or on date
+      //  set checkin and checkout to null,
+      //  set picker to checkIn
+      if (!this.state.checkOut) {
+        this.setState({
+          checkIn: date,
+          currentPicker: 'checkOut'
+        })
+      } else if(moment(this.state.checkOut).isAfter(moment(date))) {
+        this.setState({
+          checkIn: date,
+          currentPicker: null
+        }, () => {
+          this.closeCalendarAddBook();
+        });
+      } else if(moment(this.state.checkOut).isSameOrBefore(moment(date))) {
+        this.setState({
+          checkIn: null,
+          checkOut: null,
+          currentPicker: 'checkIn'
+        });
+      }
     }
     if (this.state.currentPicker === 'checkOut') {
-      this.setState({
-        checkOut: date
-      });
+
+      //if checkin is null
+      //  set checkout to date
+      //  set picker to checkin
+
+      //if checkin is before date
+      //  set checkout to date
+      //  set currentPicker to null
+      //  call closeCalendarAddBook
+
+      //if checkin is after or on date
+      //  set checkin and checkout to null
+      //  set picker to checkin
+
+      if (!this.state.checkIn) {
+        this.setState({
+          checkOut: date,
+          currentPicker: 'checkIn'
+        })
+      } else if(moment(this.state.checkIn).isBefore(moment(date))) {
+        this.setState({
+          checkOut: date,
+          currentPicker: null
+        }, () => {
+          this.closeCalendarAddBook();
+        });
+      } else if(moment(this.state.checkIn).isSameOrAfter(moment(date))) {
+        this.setState({
+          checkIn: null,
+          checkOut: null,
+          currentPicker: 'checkIn'
+        });
+      }
     }
   }
 
   render() {
     let mainButton;
     let datePicker;
+    let bookButton;
 
     if (this.state.showDatePicker) {
       datePicker = <DatePicker handleDateClick={this.handleDateClick}/>;
     }
 
     if (this.state.showMainButton) {
-      mainButton = <button onClick={this.handleMainButtonClick}>Instant Book</button>
+      mainButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleMainButtonClick}>Instant Book</button></div>
+    }
+
+    if (this.state.showBookButton) {
+      bookButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleBookButtonClick}>Instant Book</button></div>
     }
 
     return(
       <div className={styles.appContainer}>
 
-        <div className={styles.gridContainer}>
+        <div className={(mainButton || bookButton) ? styles.gridContainer : styles.gridContainerNoButton}>
+
           <div className={styles.priceContainer}>
             <div>$20</div>
             <div>per night</div>
           </div>
           <Options handleCheckInOutClick={this.handleCheckInOutClick} appState={this.state} handleGuestChange={this.handleGuestChange}/>
-          {mainButton}
+          {mainButton}{bookButton}
 
         </div>
         {datePicker}

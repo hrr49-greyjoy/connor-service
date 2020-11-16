@@ -1,6 +1,6 @@
 .appContainer {
   display: block;
-  width: 400px;
+  width: 300px;
   font-family: Calibre, Helvetica, Arial, sans-serif;
   border-style: solid;
   border-width: thin;
@@ -12,11 +12,22 @@
   grid-template-rows: 1fr 1fr 1fr;
 }
 
+.gridContainerNoButton {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
 .priceContainer {
   display: grid;
   grid-template-rows: 1fr 1fr;
+  padding: 10px;
   border-bottom-style: solid;
   border-bottom-width: thin;
   border-bottom-color: #757575;
 }
 
+.bookingButtonContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 10px;
+}
