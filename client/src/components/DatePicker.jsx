@@ -43,7 +43,7 @@ export class DatePicker extends Component {
     let dates = [];
 
     for (let i = 0; i < 42; i++) {
-      dates.push(<div key={i}className="day">{startOfMonth.format('DD')}</div>);
+      dates.push(<div key={i} className={styles.day}>{startOfMonth.format('DD')}</div>);
       startOfMonth.add(1, 'days');
     }
 
@@ -72,12 +72,12 @@ export class DatePicker extends Component {
       <div className="calendar-container">
 
         <section className={styles.monthWrapper}>
-        <div id="btn-previous-month" onClick={(e) => this.handleChangeMonth(e)}>{"<"}</div>
+        <div id="btn-previous-month"  className={styles.btnChangeMonth} onClick={(e) => this.handleChangeMonth(e)}>{"<"}</div>
         <h2>{this.state.selectedMonth.format('MMMM YYYY')}</h2>
-        <div id="btn-next-month" onClick={(e) => this.handleChangeMonth(e)}>{">"}</div>
+        <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.handleChangeMonth(e)}>{">"}</div>
         </section>
 
-        <section className={styles.weekWrapper}>
+        <div className={styles.weekWrapper}>
           <div>S</div>
           <div>M</div>
           <div>T</div>
@@ -85,9 +85,9 @@ export class DatePicker extends Component {
           <div>T</div>
           <div>F</div>
           <div>S</div>
-        </section>
+        </div>
 
-        <section className={styles.dateWrapper}>{this.state.dates.map((date) => date)}</section>
+        <div className={styles.dateWrapper}>{this.state.dates.map((date) => date)}</div>
 
       </div>
       </div>

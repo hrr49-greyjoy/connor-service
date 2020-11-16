@@ -1,0 +1,25 @@
+.optionsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.checkDate {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  border-right: solid;
+  border-right-color: #757575;
+  border-right-width: thin;
+}
+
+.checkDate:hover {
+  cursor: pointer;
+}
+.incrementCount {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.guests {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}

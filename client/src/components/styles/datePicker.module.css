@@ -5,10 +5,18 @@
 
 .monthWrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr;
 }
 
 .weekWrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.btnChangeMonth {
+  text-align: center;
+}
+
+.day {
+  border-style: solid;
+  border-width: thin;
 }
