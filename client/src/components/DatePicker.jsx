@@ -43,7 +43,7 @@ export class DatePicker extends Component {
     let dates = [];
 
     for (let i = 0; i < 42; i++) {
-      dates.push(<div key={i} className={styles.day}>{startOfMonth.format('DD')}</div>);
+      dates.push(<div key={i} className={styles.day} data-date={startOfMonth.format('YYYY-MM-DD')}>{startOfMonth.format('DD')}</div>);
       startOfMonth.add(1, 'days');
     }
 
@@ -87,7 +87,7 @@ export class DatePicker extends Component {
           <div>S</div>
         </div>
 
-        <div className={styles.dateWrapper}>{this.state.dates.map((date) => date)}</div>
+        <div className={styles.dateWrapper} onClick={this.props.handleDateClick}>{this.state.dates.map((date) => date)}</div>
 
       </div>
       </div>

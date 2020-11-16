@@ -19,4 +19,9 @@
 .day {
   border-style: solid;
   border-width: thin;
+  border-color: #757575;
+}
+
+.day:hover {
+  cursor: pointer;
 }
