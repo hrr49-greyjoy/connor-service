@@ -2,6 +2,7 @@ import React from 'react';
 import {DatePicker} from './DatePicker.jsx';
 import {Options} from './Options.jsx';
 import styles from './styles/app.module.css';
+import moment from 'moment';
 
 export class App extends React.Component {
 
@@ -11,8 +12,8 @@ export class App extends React.Component {
     this.state = {
       showMainButton: true,
       showDatePicker: false,
-      checkIn: "Nov 12",
-      checkOut: "Nov 13",
+      checkIn: moment().format('YYYY-MM-DD'),
+      checkOut: moment().add(3, 'days').format('YYYY-MM-DD'),
       guests: 3,
       currentPicker: null,
     };
@@ -21,6 +22,7 @@ export class App extends React.Component {
     this.removeInstantBookShowCalendar = this.removeInstantBookShowCalendar.bind(this);
     this.handleGuestChange = this.handleGuestChange.bind(this);
     this.handleCheckInOutClick = this.handleCheckInOutClick.bind(this);
+    this.handleDateClick = this.handleDateClick.bind(this);
   }
 
   removeInstantBookShowCalendar() {
@@ -32,6 +34,9 @@ export class App extends React.Component {
 
   handleMainButtonClick() {
     this.removeInstantBookShowCalendar();
+    this.setState({
+      currentPicker: 'checkIn'
+    });
   }
 
   handleGuestChange(event) {
@@ -69,7 +74,25 @@ export class App extends React.Component {
         this.removeInstantBookShowCalendar();
       })
     }
+  }
 
+  handleDateClick(event) {
+    console.log(event.target.dataset.date)
+    let date = event.target.dataset.date;
+
+    if (this.state.currentPicker === 'checkIn') {
+      console.log('hello');
+      this.setState({
+        checkIn: date,
+        currentPicker: 'checkOut'
+      });
+
+    }
+    if (this.state.currentPicker === 'checkOut') {
+      this.setState({
+        checkOut: date
+      });
+    }
   }
 
   render() {
@@ -77,7 +100,7 @@ export class App extends React.Component {
     let datePicker;
 
     if (this.state.showDatePicker) {
-      datePicker = <DatePicker/>;
+      datePicker = <DatePicker handleDateClick={this.handleDateClick}/>;
     }
 
     if (this.state.showMainButton) {
