@@ -9,6 +9,13 @@
   border-right: solid;
   border-right-color: #757575;
   border-right-width: thin;
+  border-bottom: solid;
+  border-bottom-color:#757575;
+  border-bottom-width: thin;
+}
+
+.checkDateSelected {
+  border-bottom-color: #ffffff;
 }
 
 .checkDate:hover {
@@ -22,4 +29,7 @@
 .guests {
   display: grid;
   grid-template-rows: 1fr 1fr;
+  border-bottom: solid;
+  border-bottom-color:#757575;
+  border-bottom-width: thin;
 }
