@@ -45,11 +45,24 @@ export class DatePicker extends Component {
     let dates = [];
 
     for (let i = 0; i < 42; i++) {
+      let isAvailable = true;
       let unavailable;
+      let selected;
       if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.state.unavailableDates)) {
         unavailable = styles.dayUnavailable;
+        isAvailable = false;
       }
-      dates.push(<div key={i} className={`${styles.day} ${unavailable}`} data-date={startOfMonth.format('YYYY-MM-DD')}>{startOfMonth.format('DD')}</div>);
+
+      if ((startOfMonth.format('YYYY-MM-DD') === this.props.checkIn) || (startOfMonth.format('YYYY-MM-DD') === this.props.checkOut)) {
+        selected = styles.daySelected;
+      }
+
+      dates.push(<div key={i}
+        className={`${styles.day} ${unavailable} ${selected}`}
+        data-date={startOfMonth.format('YYYY-MM-DD')}
+        data-available={isAvailable}>
+        {startOfMonth.format('DD')}
+        </div>);
       startOfMonth.add(1, 'days');
     }
 

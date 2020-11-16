@@ -3,6 +3,8 @@ import {DatePicker} from './DatePicker.jsx';
 import {Options} from './Options.jsx';
 import styles from './styles/app.module.css';
 import moment from 'moment';
+import {isValidSubmission} from '../helpers/isValidSubmission.js';
+import {getBadDates} from '../helpers/dataHandlers.js';
 
 export class App extends React.Component {
 
@@ -89,7 +91,9 @@ export class App extends React.Component {
 
   handleDateClick(event) {
     let date = event.target.dataset.date;
-
+    if (!JSON.parse(event.target.dataset.available)) {
+      return;
+    }
     if (this.state.currentPicker === 'checkIn') {
 
       //if checkout is null
@@ -114,7 +118,7 @@ export class App extends React.Component {
           checkIn: date,
           currentPicker: null
         }, () => {
-          this.closeCalendarAddBook();
+           this.closeCalendarAddBook();
         });
       } else if(moment(this.state.checkOut).isSameOrBefore(moment(date))) {
         this.setState({
@@ -167,7 +171,7 @@ export class App extends React.Component {
     let bookButton;
 
     if (this.state.showDatePicker) {
-      datePicker = <DatePicker handleDateClick={this.handleDateClick}/>;
+      datePicker = <DatePicker handleDateClick={this.handleDateClick} checkIn={this.state.checkIn} checkOut={this.state.checkOut}/>;
     }
 
     if (this.state.showMainButton) {
@@ -175,7 +179,7 @@ export class App extends React.Component {
     }
 
     if (this.state.showBookButton) {
-      bookButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleBookButtonClick}>Instant Book</button></div>
+      bookButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleBookButtonClick}>Book</button></div>
     }
 
     return(

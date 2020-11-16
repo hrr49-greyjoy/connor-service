@@ -34,3 +34,11 @@
 .dayUnavailable {
   background-color: #757575;
 }
+
+.dayUnavailable:hover {
+  cursor: default;
+}
+
+.daySelected {
+  background-color: #40d9ac;
+}
