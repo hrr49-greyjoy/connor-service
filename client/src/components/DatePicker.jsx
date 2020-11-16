@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styles from './styles/datePicker.module.css';
 import { isAvailableDate } from '../helpers/isAvailableDate.js';
-import { getBadDates } from '../helpers/dataHandlers.js';
 
 export class DatePicker extends Component {
 
@@ -11,8 +10,7 @@ export class DatePicker extends Component {
 
     this.state = {
       selectedMonth: moment(),
-      dates: [],
-      unavailableDates: null
+      dates: []
     }
     this.handleChangeMonth = this.handleChangeMonth.bind(this);
   }
@@ -48,7 +46,7 @@ export class DatePicker extends Component {
       let isAvailable = true;
       let unavailable;
       let selected;
-      if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.state.unavailableDates)) {
+      if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.props.unavailableDates)) {
         unavailable = styles.dayUnavailable;
         isAvailable = false;
       }
@@ -70,22 +68,10 @@ export class DatePicker extends Component {
   }
 
   componentDidMount() {
-    getBadDates()
-    .catch((err) => {
-      if (err) throw err;
-    })
-    .then((results) => {
-      this.setState({
-        unavailableDates: results.data
-      });
-    })
-    .then(() => {
       let dates = this.createDates(this.state.selectedMonth);
       this.setState({
         dates
-      })
-    })
-
+      });
   }
 
   componentDidUpdate() {

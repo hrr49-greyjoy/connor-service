@@ -19,6 +19,7 @@ export class App extends React.Component {
       checkOut: null,
       guests: 3,
       currentPicker: null,
+      unavailableDates: {}
     };
 
     this.handleMainButtonClick = this.handleMainButtonClick.bind(this);
@@ -26,6 +27,18 @@ export class App extends React.Component {
     this.handleGuestChange = this.handleGuestChange.bind(this);
     this.handleCheckInOutClick = this.handleCheckInOutClick.bind(this);
     this.handleDateClick = this.handleDateClick.bind(this);
+  }
+
+  componentDidMount() {
+    getBadDates()
+    .catch((err) => {
+      if (err) throw err;
+    })
+    .then((results) => {
+      this.setState({
+        unavailableDates: results.data
+      });
+    })
   }
 
   removeInstantBookShowCalendar() {
@@ -171,7 +184,12 @@ export class App extends React.Component {
     let bookButton;
 
     if (this.state.showDatePicker) {
-      datePicker = <DatePicker handleDateClick={this.handleDateClick} checkIn={this.state.checkIn} checkOut={this.state.checkOut}/>;
+      datePicker = <DatePicker
+      handleDateClick={this.handleDateClick}
+      checkIn={this.state.checkIn}
+      checkOut={this.state.checkOut}
+      unavailableDates={this.state.unavailableDates}
+      />;
     }
 
     if (this.state.showMainButton) {
