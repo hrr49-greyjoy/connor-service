@@ -1,3 +1,8 @@
+.calendarContainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr 11fr
+}
+
 .dateWrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -24,4 +29,8 @@
 
 .day:hover {
   cursor: pointer;
+}
+
+.dayUnavailable {
+  background-color: #757575;
 }
