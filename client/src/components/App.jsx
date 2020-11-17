@@ -220,6 +220,7 @@ export class App extends React.Component {
     let datePicker;
     let bookButton;
     let subTotal;
+    let container;
 
     if (this.state.showDatePicker) {
       datePicker = <DatePicker
@@ -235,13 +236,13 @@ export class App extends React.Component {
 
     if (this.state.showMainButton) {
       mainButton = <div className={styles.bookingButtonContainer}>
-        <button onClick={this.handleMainButtonClick}>Instant Book</button>
+        <button onClick={this.handleMainButtonClick} className={styles.bookingButton}>Instant Book</button>
         </div>;
     }
 
     if (this.state.showBookButton) {
       bookButton = <div className={styles.bookingButtonContainer}>
-        <button onClick={this.handleBookButtonClick}>Book</button>
+        <button onClick={this.handleBookButtonClick} className={styles.bookingButton}>Book</button>
         </div>;
     }
 
@@ -251,14 +252,24 @@ export class App extends React.Component {
         </div>
     }
 
+    if (mainButton) {
+      container = styles.gridContainer;
+    } else if(bookButton) {
+      container = styles.gridContainerSubTotal;
+    } else {
+      container = styles.gridContainerNoButton;
+    }
+
+
+
     return(
       <div className={styles.appContainer}>
 
-        <div className={(mainButton || bookButton) ? styles.gridContainer : styles.gridContainerNoButton}>
+        <div className={container}>
 
           <div className={styles.priceContainer}>
-            <div>{`$ ${this.state.price_per_night}`}</div>
-            <div>per night</div>
+            <div className={styles.subTotalNumber}>{`$ ${this.state.price_per_night}`}</div>
+            <div className={styles.perNight}>per night</div>
           </div>
           <Options handleCheckInOutClick={this.handleCheckInOutClick} appState={this.state} handleGuestChange={this.handleGuestChange}/>
           {mainButton}{subTotal}{bookButton}

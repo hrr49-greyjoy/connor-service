@@ -1,6 +1,6 @@
 .optionsContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 38% 38% 24%;
 }
 
 .checkDate {
@@ -8,15 +8,16 @@
   grid-template-rows: 1fr 1fr;
   padding:10px;
   border-right: solid;
-  border-right-color: #757575;
+  border-right-color: #ebebeb;
   border-right-width: thin;
   border-bottom: solid;
-  border-bottom-color:#757575;
+  border-bottom-color: #ebebeb;
   border-bottom-width: thin;
 }
 
 .checkDateSelected {
   border-bottom: none;
+  background-color: #f3f3f3;
 }
 
 .checkDate:hover {
@@ -32,6 +33,6 @@
   grid-template-rows: 1fr 1fr;
   padding: 10px;
   border-bottom: solid;
-  border-bottom-color:#757575;
+  border-bottom-color: #ebebeb;
   border-bottom-width: thin;
 }

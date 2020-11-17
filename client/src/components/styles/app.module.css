@@ -1,20 +1,34 @@
+@font-face {
+  font-family: 'Calibre';
+  src: url('../../../dist/fonts/CalibreTest-Regular.otf') format('opentype');
+}
+
+
 .appContainer {
   display: block;
   width: 300px;
-  font-family: Calibre, Helvetica, Arial, sans-serif;
+  font-family: Calibre;
   border-style: solid;
   border-width: thin;
-  border-color: #757575;
+  border-color:#ebebeb;
 }
 
 .gridContainer {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
+  height: 250px;
 }
 
 .gridContainerNoButton {
   display: grid;
   grid-template-rows: 1fr 1fr;
+  max-height: 250px;
+}
+
+.gridContainerSubTotal {
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  max-height: 250px;
+
 }
 
 .priceContainer {
@@ -23,7 +37,7 @@
   padding: 10px;
   border-bottom-style: solid;
   border-bottom-width: thin;
-  border-bottom-color: #757575;
+  border-bottom-color: #ebebeb;
 }
 
 .bookingButtonContainer {
@@ -32,6 +46,28 @@
   padding: 10px;
 }
 
+.bookingButton {
+  color: #ffffff;
+  background-color: #40d9ac;
+  border: none;
+  outline: none;
+}
+
+.bookingButton:hover {
+  color: #40d9ac;
+  background-color: #ffffff;
+  border: solid;
+  border-color: #40d9ac;
+  cursor: pointer;
+}
 .subTotalContainer {
   display: grid;
+}
+
+.perNight {
+  height: fit-content;
+}
+
+.subTotalNumber {
+  height: fit-content;
 }
