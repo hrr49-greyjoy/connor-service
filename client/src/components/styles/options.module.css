@@ -16,7 +16,7 @@
 }
 
 .checkDateSelected {
-  border-bottom-color: #ffffff;
+  border-bottom: none;
 }
 
 .checkDate:hover {

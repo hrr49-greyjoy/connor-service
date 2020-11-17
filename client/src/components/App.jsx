@@ -106,13 +106,13 @@ export class App extends React.Component {
   }
 
   handleChangeMonth(event) {
-    if (event.target.id === "btn-previous-month") {
+    if (event.currentTarget.id === "btn-previous-month") {
       let previousMonth = moment(this.state.selectedMonth).subtract(1, 'months');
       this.setState({
         selectedMonth: previousMonth
       })
     }
-    if (event.target.id === "btn-next-month") {
+    if (event.currentTarget.id === "btn-next-month") {
       let nextMonth = moment(this.state.selectedMonth).add(1, 'months');
       this.setState({
         selectedMonth: nextMonth
@@ -143,10 +143,9 @@ export class App extends React.Component {
 
   }
 
-  handleDateClick(event) {
-    let date = event.target.dataset.date;
+  handleDateClick(available, date) {
 
-    if (!JSON.parse(event.target.dataset.available)) {
+    if (!available) {
       return;
     }
 
@@ -166,6 +165,12 @@ export class App extends React.Component {
             currentPicker: null
           }, () => {
              this.closeCalendarAddBook();
+          });
+        } else {
+          this.setState({
+            checkIn: null,
+            checkOut: null,
+            currentPicker: 'checkIn'
           });
         }
 
@@ -192,6 +197,12 @@ export class App extends React.Component {
             currentPicker: null
           }, () => {
             this.closeCalendarAddBook();
+          });
+        } else {
+          this.setState({
+            checkIn: null,
+            checkOut: null,
+            currentPicker: 'checkIn'
           });
         }
       } else if(moment(this.state.checkIn).isSameOrAfter(moment(date))) {
