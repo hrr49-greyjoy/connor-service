@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styles from './styles/datePicker.module.css';
 import { isAvailableDate } from '../helpers/isAvailableDate.js';
-import { getBadDates } from '../helpers/dataHandlers.js';
 
 export class DatePicker extends Component {
 
@@ -11,8 +10,7 @@ export class DatePicker extends Component {
 
     this.state = {
       selectedMonth: moment(),
-      dates: [],
-      unavailableDates: null
+      dates: []
     }
     this.handleChangeMonth = this.handleChangeMonth.bind(this);
   }
@@ -45,11 +43,24 @@ export class DatePicker extends Component {
     let dates = [];
 
     for (let i = 0; i < 42; i++) {
+      let isAvailable = true;
       let unavailable;
-      if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.state.unavailableDates)) {
+      let selected;
+      if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.props.unavailableDates)) {
         unavailable = styles.dayUnavailable;
+        isAvailable = false;
       }
-      dates.push(<div key={i} className={`${styles.day} ${unavailable}`} data-date={startOfMonth.format('YYYY-MM-DD')}>{startOfMonth.format('DD')}</div>);
+
+      if ((startOfMonth.format('YYYY-MM-DD') === this.props.checkIn) || (startOfMonth.format('YYYY-MM-DD') === this.props.checkOut)) {
+        selected = styles.daySelected;
+      }
+
+      dates.push(<div key={i}
+        className={`${styles.day} ${unavailable} ${selected}`}
+        data-date={startOfMonth.format('YYYY-MM-DD')}
+        data-available={isAvailable}>
+        {startOfMonth.format('DD')}
+        </div>);
       startOfMonth.add(1, 'days');
     }
 
@@ -57,22 +68,10 @@ export class DatePicker extends Component {
   }
 
   componentDidMount() {
-    getBadDates()
-    .catch((err) => {
-      if (err) throw err;
-    })
-    .then((results) => {
-      this.setState({
-        unavailableDates: results.data
-      });
-    })
-    .then(() => {
       let dates = this.createDates(this.state.selectedMonth);
       this.setState({
         dates
-      })
-    })
-
+      });
   }
 
   componentDidUpdate() {

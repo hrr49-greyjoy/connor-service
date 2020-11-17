@@ -3,6 +3,8 @@ import {DatePicker} from './DatePicker.jsx';
 import {Options} from './Options.jsx';
 import styles from './styles/app.module.css';
 import moment from 'moment';
+import {isValidSubmission} from '../helpers/isValidSubmission.js';
+import {getBadDates} from '../helpers/dataHandlers.js';
 
 export class App extends React.Component {
 
@@ -17,6 +19,7 @@ export class App extends React.Component {
       checkOut: null,
       guests: 3,
       currentPicker: null,
+      unavailableDates: {}
     };
 
     this.handleMainButtonClick = this.handleMainButtonClick.bind(this);
@@ -24,6 +27,18 @@ export class App extends React.Component {
     this.handleGuestChange = this.handleGuestChange.bind(this);
     this.handleCheckInOutClick = this.handleCheckInOutClick.bind(this);
     this.handleDateClick = this.handleDateClick.bind(this);
+  }
+
+  componentDidMount() {
+    getBadDates()
+    .catch((err) => {
+      if (err) throw err;
+    })
+    .then((results) => {
+      this.setState({
+        unavailableDates: results.data
+      });
+    })
   }
 
   removeInstantBookShowCalendar() {
@@ -89,7 +104,9 @@ export class App extends React.Component {
 
   handleDateClick(event) {
     let date = event.target.dataset.date;
-
+    if (!JSON.parse(event.target.dataset.available)) {
+      return;
+    }
     if (this.state.currentPicker === 'checkIn') {
 
       //if checkout is null
@@ -110,12 +127,17 @@ export class App extends React.Component {
           currentPicker: 'checkOut'
         })
       } else if(moment(this.state.checkOut).isAfter(moment(date))) {
-        this.setState({
-          checkIn: date,
-          currentPicker: null
-        }, () => {
-          this.closeCalendarAddBook();
-        });
+        //first check if submission is valid
+        if (isValidSubmission(date, this.state.checkOut, this.state.unavailableDates)) {
+
+          this.setState({
+            checkIn: date,
+            currentPicker: null
+          }, () => {
+             this.closeCalendarAddBook();
+          });
+        }
+
       } else if(moment(this.state.checkOut).isSameOrBefore(moment(date))) {
         this.setState({
           checkIn: null,
@@ -145,12 +167,15 @@ export class App extends React.Component {
           currentPicker: 'checkIn'
         })
       } else if(moment(this.state.checkIn).isBefore(moment(date))) {
-        this.setState({
-          checkOut: date,
-          currentPicker: null
-        }, () => {
-          this.closeCalendarAddBook();
-        });
+        if (isValidSubmission(this.state.checkIn, date, this.state.unavailableDates)) {
+
+          this.setState({
+            checkOut: date,
+            currentPicker: null
+          }, () => {
+            this.closeCalendarAddBook();
+          });
+        }
       } else if(moment(this.state.checkIn).isSameOrAfter(moment(date))) {
         this.setState({
           checkIn: null,
@@ -167,7 +192,12 @@ export class App extends React.Component {
     let bookButton;
 
     if (this.state.showDatePicker) {
-      datePicker = <DatePicker handleDateClick={this.handleDateClick}/>;
+      datePicker = <DatePicker
+      handleDateClick={this.handleDateClick}
+      checkIn={this.state.checkIn}
+      checkOut={this.state.checkOut}
+      unavailableDates={this.state.unavailableDates}
+      />;
     }
 
     if (this.state.showMainButton) {
@@ -175,7 +205,7 @@ export class App extends React.Component {
     }
 
     if (this.state.showBookButton) {
-      bookButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleBookButtonClick}>Instant Book</button></div>
+      bookButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleBookButtonClick}>Book</button></div>
     }
 
     return(

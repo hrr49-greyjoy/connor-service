@@ -1,22 +1,15 @@
+import moment from 'moment';
 
 export const isValidSubmission = (checkIn, checkOut, unavailableDates) => {
-  if (moment(checkOut).isBefore(checkOut)) {
-    console.log('INVALID SUBMISSION: check in before checkout');
-  }
-
-  if(moment(checkIn).isBefore(moment())) {
-    console.log('INVALID SUBMISSION: check out is before current date');
-  }
 
   let startDate = moment(checkIn);
 
-  while(startDate.isSameOrBefore(checkOut)) {
-
+  while(startDate.isSameOrBefore(moment(checkOut))) {
     if (unavailableDates[startDate.format('YYYY-MM-DD')]) {
-      console.log('INVALID SUBMISSION: date-range contains reserved date');
-      break;
+      return false;
     }
 
     startDate.add(1, 'days');
   }
+  return true;
 }
