@@ -127,12 +127,17 @@ export class App extends React.Component {
           currentPicker: 'checkOut'
         })
       } else if(moment(this.state.checkOut).isAfter(moment(date))) {
-        this.setState({
-          checkIn: date,
-          currentPicker: null
-        }, () => {
-           this.closeCalendarAddBook();
-        });
+        //first check if submission is valid
+        if (isValidSubmission(date, this.state.checkOut, this.state.unavailableDates)) {
+
+          this.setState({
+            checkIn: date,
+            currentPicker: null
+          }, () => {
+             this.closeCalendarAddBook();
+          });
+        }
+
       } else if(moment(this.state.checkOut).isSameOrBefore(moment(date))) {
         this.setState({
           checkIn: null,
@@ -162,12 +167,15 @@ export class App extends React.Component {
           currentPicker: 'checkIn'
         })
       } else if(moment(this.state.checkIn).isBefore(moment(date))) {
-        this.setState({
-          checkOut: date,
-          currentPicker: null
-        }, () => {
-          this.closeCalendarAddBook();
-        });
+        if (isValidSubmission(this.state.checkIn, date, this.state.unavailableDates)) {
+
+          this.setState({
+            checkOut: date,
+            currentPicker: null
+          }, () => {
+            this.closeCalendarAddBook();
+          });
+        }
       } else if(moment(this.state.checkIn).isSameOrAfter(moment(date))) {
         this.setState({
           checkIn: null,
