@@ -66,13 +66,19 @@ export class DatePicker extends Component {
   }
 
   render() {
+    let backButton;
+    if (this.props.now.format('MMMM YYYY') !== moment(this.props.selectedMonth).format('MMMM YYYY')) {
+      backButton = <div id="btn-previous-month"  className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}>{"<"}</div>
+    } else {
+      backButton = <div></div>
+    }
     return(
       <div className={styles.calendarContainer}>
 
         <div className={styles.monthWrapper}>
-        <div id="btn-previous-month"  className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}>{"<"}</div>
-        <div>{this.props.selectedMonth.format('MMMM YYYY')}</div>
-        <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}>{">"}</div>
+         {backButton}
+          <div>{this.props.selectedMonth.format('MMMM YYYY')}</div>
+          <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}>{">"}</div>
         </div>
 
         <div className={styles.weekWrapper}>
