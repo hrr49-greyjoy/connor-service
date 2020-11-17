@@ -68,7 +68,6 @@ export class App extends React.Component {
   }
 
   closeCalendarAddBook() {
-
     getPricingByDates(this.state.checkIn, this.state.checkOut, this.state.guests)
       .then((results) => {
         this.setState({
@@ -92,7 +91,6 @@ export class App extends React.Component {
   }
 
   handleGuestChange(event) {
-
     if (event.target.innerText === '+' && this.state.guests < 8) {
       let increment = this.state.guests + 1;
       this.setState({
@@ -140,29 +138,20 @@ export class App extends React.Component {
           this.removeInstantBookShowCalendar();
         })
       }
+
     });
 
   }
 
   handleDateClick(event) {
     let date = event.target.dataset.date;
+
     if (!JSON.parse(event.target.dataset.available)) {
       return;
     }
+
     if (this.state.currentPicker === 'checkIn') {
 
-      //if checkout is null
-      //  set checkin to date
-      //  set picker to checkout
-
-      //if checkout is after date
-      //  set checkin to date
-      //  set currentPicker to null
-      //  call closeCalendarAddBook
-
-      //if checkout is before or on date
-      //  set checkin and checkout to null,
-      //  set picker to checkIn
       if (!this.state.checkOut) {
         this.setState({
           checkIn: date,
@@ -189,19 +178,6 @@ export class App extends React.Component {
       }
     }
     if (this.state.currentPicker === 'checkOut') {
-
-      //if checkin is null
-      //  set checkout to date
-      //  set picker to checkin
-
-      //if checkin is before date
-      //  set checkout to date
-      //  set currentPicker to null
-      //  call closeCalendarAddBook
-
-      //if checkin is after or on date
-      //  set checkin and checkout to null
-      //  set picker to checkin
 
       if (!this.state.checkIn) {
         this.setState({
@@ -247,15 +223,21 @@ export class App extends React.Component {
     }
 
     if (this.state.showMainButton) {
-      mainButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleMainButtonClick}>Instant Book</button></div>
+      mainButton = <div className={styles.bookingButtonContainer}>
+        <button onClick={this.handleMainButtonClick}>Instant Book</button>
+        </div>;
     }
 
     if (this.state.showBookButton) {
-      bookButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleBookButtonClick}>Book</button></div>
+      bookButton = <div className={styles.bookingButtonContainer}>
+        <button onClick={this.handleBookButtonClick}>Book</button>
+        </div>;
     }
 
     if (this.state.showSubTotal) {
-      subTotal  = <div className={styles.subTotalContainer}><div>Subtotal</div><div>{'$' + this.state.subTotal + '.00'}</div></div>
+      subTotal  = <div className={styles.subTotalContainer}>
+        <div>Subtotal</div><div>{'$' + this.state.subTotal + '.00'}</div>
+        </div>
     }
 
     return(
