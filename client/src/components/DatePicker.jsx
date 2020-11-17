@@ -9,25 +9,7 @@ export class DatePicker extends Component {
     super(props)
 
     this.state = {
-      selectedMonth: moment(),
       dates: []
-    }
-    this.handleChangeMonth = this.handleChangeMonth.bind(this);
-  }
-
-
-  handleChangeMonth(event) {
-    if (event.target.id === "btn-previous-month") {
-      let previousMonth = moment(this.state.selectedMonth).subtract(1, 'months');
-      this.setState({
-        selectedMonth: previousMonth
-      })
-    }
-    if (event.target.id === "btn-next-month") {
-      let nextMonth = moment(this.state.selectedMonth).add(1, 'months');
-      this.setState({
-        selectedMonth: nextMonth
-      })
     }
   }
 
@@ -68,14 +50,14 @@ export class DatePicker extends Component {
   }
 
   componentDidMount() {
-      let dates = this.createDates(this.state.selectedMonth);
+      let dates = this.createDates(this.props.selectedMonth);
       this.setState({
         dates
       });
   }
 
   componentDidUpdate() {
-    let dates = this.createDates(this.state.selectedMonth);
+    let dates = this.createDates(this.props.selectedMonth);
     if (JSON.stringify(dates) !== JSON.stringify(this.state.dates)) {
       this.setState({
         dates
@@ -88,9 +70,9 @@ export class DatePicker extends Component {
       <div className={styles.calendarContainer}>
 
         <div className={styles.monthWrapper}>
-        <div id="btn-previous-month"  className={styles.btnChangeMonth} onClick={(e) => this.handleChangeMonth(e)}>{"<"}</div>
-        <div>{this.state.selectedMonth.format('MMMM YYYY')}</div>
-        <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.handleChangeMonth(e)}>{">"}</div>
+        <div id="btn-previous-month"  className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}>{"<"}</div>
+        <div>{this.props.selectedMonth.format('MMMM YYYY')}</div>
+        <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}>{">"}</div>
         </div>
 
         <div className={styles.weekWrapper}>

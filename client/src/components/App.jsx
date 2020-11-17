@@ -22,7 +22,8 @@ export class App extends React.Component {
       currentPicker: null,
       unavailableDates: {},
       price_per_night: 'loading icon',
-      subTotal: null
+      subTotal: null,
+      selectedMonth: moment()
     };
 
     this.handleMainButtonClick = this.handleMainButtonClick.bind(this);
@@ -30,6 +31,7 @@ export class App extends React.Component {
     this.handleGuestChange = this.handleGuestChange.bind(this);
     this.handleCheckInOutClick = this.handleCheckInOutClick.bind(this);
     this.handleDateClick = this.handleDateClick.bind(this);
+    this.handleChangeMonth = this.handleChangeMonth.bind(this);
   }
 
   componentDidMount() {
@@ -100,6 +102,21 @@ export class App extends React.Component {
       let decrement = this.state.guests - 1;
       this.setState({
         guests: decrement
+      })
+    }
+  }
+
+  handleChangeMonth(event) {
+    if (event.target.id === "btn-previous-month") {
+      let previousMonth = moment(this.state.selectedMonth).subtract(1, 'months');
+      this.setState({
+        selectedMonth: previousMonth
+      })
+    }
+    if (event.target.id === "btn-next-month") {
+      let nextMonth = moment(this.state.selectedMonth).add(1, 'months');
+      this.setState({
+        selectedMonth: nextMonth
       })
     }
   }
@@ -222,6 +239,8 @@ export class App extends React.Component {
       checkIn={this.state.checkIn}
       checkOut={this.state.checkOut}
       unavailableDates={this.state.unavailableDates}
+      handleChangeMonth={this.handleChangeMonth}
+      selectedMonth={this.state.selectedMonth}
       />;
     }
 
