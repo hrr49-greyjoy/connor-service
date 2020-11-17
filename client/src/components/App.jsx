@@ -23,7 +23,8 @@ export class App extends React.Component {
       unavailableDates: {},
       price_per_night: 'loading icon',
       subTotal: null,
-      selectedMonth: moment()
+      selectedMonth: moment(),
+      now: moment(),
     };
 
     this.handleMainButtonClick = this.handleMainButtonClick.bind(this);
@@ -241,6 +242,7 @@ export class App extends React.Component {
       unavailableDates={this.state.unavailableDates}
       handleChangeMonth={this.handleChangeMonth}
       selectedMonth={this.state.selectedMonth}
+      now={this.state.now}
       />;
     }
 
