@@ -4,7 +4,7 @@ import {Options} from './Options.jsx';
 import styles from './styles/app.module.css';
 import moment from 'moment';
 import {isValidSubmission} from '../helpers/isValidSubmission.js';
-import {getBadDates} from '../helpers/dataHandlers.js';
+import {getBadDates, getPricingByDates} from '../helpers/dataHandlers.js';
 
 export class App extends React.Component {
 
@@ -15,11 +15,14 @@ export class App extends React.Component {
       showMainButton: true,
       showDatePicker: false,
       showBookButton: false,
+      showSubTotal: false,
       checkIn: null,
       checkOut: null,
       guests: 3,
       currentPicker: null,
-      unavailableDates: {}
+      unavailableDates: {},
+      price_per_night: 'loading icon',
+      subTotal: null
     };
 
     this.handleMainButtonClick = this.handleMainButtonClick.bind(this);
@@ -30,6 +33,12 @@ export class App extends React.Component {
   }
 
   componentDidMount() {
+    getPricingByDates()
+    .then((results) => {
+      this.setState({
+        price_per_night: results.data.price_per_night
+      })
+    })
     getBadDates()
     .catch((err) => {
       if (err) throw err;
@@ -48,12 +57,24 @@ export class App extends React.Component {
     })
   }
 
+  removeBookRemoveSubTotal(callback) {
+    this.setState( {
+      showBookButton: false,
+      showSubTotal: false
+    }, callback());
+  }
+
   closeCalendarAddBook() {
-    console.log('called closeCalendarAddBook');
-    this.setState({
-      showDatePicker: false,
-      showBookButton: true
-    })
+
+    getPricingByDates(this.state.checkIn, this.state.checkOut, this.state.guests)
+      .then((results) => {
+        this.setState({
+          subTotal: results.data.total_price,
+          showDatePicker: false,
+          showBookButton: true,
+          showSubTotal: true
+        })
+      })
   }
 
   handleMainButtonClick() {
@@ -84,22 +105,25 @@ export class App extends React.Component {
   }
 
   handleCheckInOutClick(event) {
+    this.removeBookRemoveSubTotal(() => {
 
-    if (event.currentTarget.id === "checkIn" || (event.currentTarget.id === "checkOut" && !this.state.currentPicker)) {
-      this.setState({
-        currentPicker: 'checkIn'
-      }, () => {
-        this.removeInstantBookShowCalendar();
-      })
+      if (event.currentTarget.id === "checkIn" || (event.currentTarget.id === "checkOut" && !this.state.currentPicker)) {
+        this.setState({
+          currentPicker: 'checkIn'
+        }, () => {
+          this.removeInstantBookShowCalendar();
+        })
 
-    }
-    if (event.currentTarget.id === "checkOut" && this.state.currentPicker) {
-      this.setState({
-        currentPicker: 'checkOut'
-      }, () => {
-        this.removeInstantBookShowCalendar();
-      })
-    }
+      }
+      if (event.currentTarget.id === "checkOut" && this.state.currentPicker) {
+        this.setState({
+          currentPicker: 'checkOut'
+        }, () => {
+          this.removeInstantBookShowCalendar();
+        })
+      }
+    });
+
   }
 
   handleDateClick(event) {
@@ -190,6 +214,7 @@ export class App extends React.Component {
     let mainButton;
     let datePicker;
     let bookButton;
+    let subTotal;
 
     if (this.state.showDatePicker) {
       datePicker = <DatePicker
@@ -208,17 +233,21 @@ export class App extends React.Component {
       bookButton = <div className={styles.bookingButtonContainer}><button onClick={this.handleBookButtonClick}>Book</button></div>
     }
 
+    if (this.state.showSubTotal) {
+      subTotal  = <div className={styles.subTotalContainer}><div>Subtotal</div><div>{'$' + this.state.subTotal + '.00'}</div></div>
+    }
+
     return(
       <div className={styles.appContainer}>
 
         <div className={(mainButton || bookButton) ? styles.gridContainer : styles.gridContainerNoButton}>
 
           <div className={styles.priceContainer}>
-            <div>$20</div>
+            <div>{`$ ${this.state.price_per_night}`}</div>
             <div>per night</div>
           </div>
           <Options handleCheckInOutClick={this.handleCheckInOutClick} appState={this.state} handleGuestChange={this.handleGuestChange}/>
-          {mainButton}{bookButton}
+          {mainButton}{subTotal}{bookButton}
 
         </div>
         {datePicker}

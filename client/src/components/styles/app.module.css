@@ -31,3 +31,7 @@
   grid-template-columns: 1fr;
   padding: 10px;
 }
+
+.subTotalContainer {
+  display: grid;
+}
