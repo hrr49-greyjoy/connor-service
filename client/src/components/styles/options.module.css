@@ -1,6 +1,6 @@
 .optionsContainer {
   display: grid;
-  grid-template-columns: 38% 38% 24%;
+  grid-template-columns: 36% 36% 28%;
 }
 
 .checkDate {

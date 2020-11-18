@@ -48,7 +48,7 @@
   display: grid;
   grid-template-columns: 1fr;
   padding: 10px;
-  height: 50px;
+  height: 60px;
 }
 
 .bookingButton {
@@ -69,19 +69,25 @@
 }
 .subTotalContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 50px;
+  grid-template-columns: 4fr 1fr;
+  color: #333333;
+  font-family: Calibre-Medium;
+  font-size: 19px;
+  padding: 10px;
+  padding-top: 25px;
+  height: 30px;
   border-bottom-style: solid;
   border-bottom-width: thin;
   border-bottom-color: #ebebeb;
 }
+
 
 .perNight {
   color: #757575;
   height: fit-content;
 }
 
-.subTotalNumber {
+.pricePerNight {
   color: #333333;
   height: fit-content;
   font-family: Calibre-Medium;

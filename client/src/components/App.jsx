@@ -295,7 +295,7 @@ export class App extends React.Component {
         <div className={container}>
 
           <div className={styles.priceContainer}>
-            <div className={styles.subTotalNumber}>{`$ ${this.state.price_per_night}`}</div>
+            <div className={styles.pricePerNight}>{`$ ${this.state.price_per_night}`}</div>
             <div className={styles.perNight}>per night</div>
           </div>
           <Options handleCheckInOutClick={this.handleCheckInOutClick} appState={this.state} handleGuestChange={this.handleGuestChange}/>
