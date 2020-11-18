@@ -4,7 +4,7 @@ import {Options} from './Options.jsx';
 import styles from './styles/app.module.css';
 import moment from 'moment';
 import {isValidSubmission} from '../helpers/isValidSubmission.js';
-import {getBadDates, getPricingByDates} from '../helpers/dataHandlers.js';
+import {getBadDates, getPricingByDates, getDailyPrice} from '../helpers/dataHandlers.js';
 
 export class App extends React.Component {
 
@@ -36,7 +36,7 @@ export class App extends React.Component {
   }
 
   componentDidMount() {
-    getPricingByDates()
+    getDailyPrice()
     .then((results) => {
       this.setState({
         price_per_night: results.data.price_per_night
