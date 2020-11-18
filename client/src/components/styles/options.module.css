@@ -23,6 +23,19 @@
 .checkDate:hover {
   cursor: pointer;
 }
+
+.check1 {
+  font-family: Calibre-Medium;
+  color: #333333;
+  font-size: 18px;
+}
+
+.check2 {
+  color: #333333;
+  font-size: 18px;
+}
+
+
 .incrementCount {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

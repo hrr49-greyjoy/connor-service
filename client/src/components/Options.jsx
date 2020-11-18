@@ -26,17 +26,17 @@ export class Options extends Component {
 
       <div id="checkIn" className={`${styles.checkDate} ${conditionalClassCheckIn}`}
       onClick={(e) => this.props.handleCheckInOutClick(e)}>
-        <div>Check In</div>
-        <div>{this.props.appState.checkIn === null ? 'Select date' : moment(this.props.appState.checkIn).format('MMM D')}</div>
+        <div className={styles.check1}>Check In</div>
+        <div className={styles.check2}>{this.props.appState.checkIn === null ? 'Select date' : moment(this.props.appState.checkIn).format('MMM D')}</div>
       </div>
 
       <div id="checkOut" className={`${styles.checkDate} ${conditionalClassCheckOut}`} onClick={(e) => this.props.handleCheckInOutClick(e)}>
-        <div>Check Out</div>
-        <div>{this.props.appState.checkOut === null ? 'Select date' : moment(this.props.appState.checkOut).format('MMM D')}</div>
+        <div className={styles.check1}>Check Out</div>
+        <div className={styles.check2}>{this.props.appState.checkOut === null ? 'Select date' : moment(this.props.appState.checkOut).format('MMM D')}</div>
       </div>
 
       <div className={styles.guests}>
-        <div>Guests</div>
+        <div className={styles.check1}>Guests</div>
 
         <div className={styles.incrementCount}>
           <div onClick={(e) => this.props.handleGuestChange(e)}>-</div>

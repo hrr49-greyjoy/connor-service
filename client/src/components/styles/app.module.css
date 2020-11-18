@@ -1,13 +1,16 @@
 @font-face {
-  font-family: 'Calibre';
+  font-family: 'Calibre-Regular';
   src: url('../../../dist/fonts/CalibreTest-Regular.otf') format('opentype');
 }
-
+@font-face {
+  font-family: 'Calibre-Medium';
+  src: url('../../../dist/fonts/CalibreTest-Medium.otf') format('opentype');
+}
 
 .appContainer {
   display: block;
   width: 300px;
-  font-family: Calibre;
+  font-family: Calibre-Regular, Fallback Arial, Helvetica, sans-serif;
   border-style: solid;
   border-width: thin;
   border-color:#ebebeb;
@@ -47,6 +50,8 @@
 }
 
 .bookingButton {
+  font-family: Calibre-Medium;
+  font-size: 19px;
   color: #ffffff;
   background-color: #40d9ac;
   border: none;
@@ -65,9 +70,14 @@
 }
 
 .perNight {
+  color: #757575;
   height: fit-content;
 }
 
 .subTotalNumber {
+  color: #333333;
   height: fit-content;
+  font-family: Calibre-Medium;
+  font-weight: bold;
+  font-size: 26px;
 }
