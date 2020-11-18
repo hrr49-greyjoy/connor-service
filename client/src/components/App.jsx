@@ -67,6 +67,15 @@ export class App extends React.Component {
     }, callback());
   }
 
+  removeCalendarShowMainBook() {
+    this.setState( {
+      showMainButton: true,
+      showDatePicker: false,
+      showBookButton: false,
+      showSubTotal: false
+    });
+  }
+
   closeCalendarAddBook() {
     getPricingByDates(this.state.checkIn, this.state.checkOut, this.state.guests)
       .then((results) => {
@@ -91,28 +100,46 @@ export class App extends React.Component {
   }
 
   handleGuestChange(event) {
-    if (event.target.innerText === '+' && this.state.guests < 8) {
+    if (event.currentTarget.id === 'increment' && this.state.guests < 8) {
       let increment = this.state.guests + 1;
       this.setState({
         guests: increment
-      })
+      }, () => {
+        if (this.state.checkIn && this.state.checkOut) {
+          getPricingByDates()
+            .then((results) => {
+              this.setState({
+                price_per_night: results.data.price_per_night
+              });
+            });
+        }
+      });
     }
-    if (event.target.innerText === '-' && this.state.guests > 0) {
+    if (event.currentTarget.id === 'decrement' && this.state.guests > 0) {
       let decrement = this.state.guests - 1;
       this.setState({
         guests: decrement
-      })
+      }, () => {
+        if (this.state.checkIn && this.state.checkOut) {
+          getPricingByDates()
+            .then((results) => {
+              this.setState({
+                price_per_night: results.data.price_per_night
+              });
+            });
+        }
+      });
     }
   }
 
   handleChangeMonth(event) {
-    if (event.target.id === "btn-previous-month") {
+    if (event.currentTarget.id === "btn-previous-month") {
       let previousMonth = moment(this.state.selectedMonth).subtract(1, 'months');
       this.setState({
         selectedMonth: previousMonth
       })
     }
-    if (event.target.id === "btn-next-month") {
+    if (event.currentTarget.id === "btn-next-month") {
       let nextMonth = moment(this.state.selectedMonth).add(1, 'months');
       this.setState({
         selectedMonth: nextMonth
@@ -143,10 +170,9 @@ export class App extends React.Component {
 
   }
 
-  handleDateClick(event) {
-    let date = event.target.dataset.date;
+  handleDateClick(available, date) {
 
-    if (!JSON.parse(event.target.dataset.available)) {
+    if (!available) {
       return;
     }
 
@@ -166,6 +192,12 @@ export class App extends React.Component {
             currentPicker: null
           }, () => {
              this.closeCalendarAddBook();
+          });
+        } else {
+          this.setState({
+            checkIn: null,
+            checkOut: null,
+            currentPicker: 'checkIn'
           });
         }
 
@@ -193,6 +225,12 @@ export class App extends React.Component {
           }, () => {
             this.closeCalendarAddBook();
           });
+        } else {
+          this.setState({
+            checkIn: null,
+            checkOut: null,
+            currentPicker: 'checkIn'
+          });
         }
       } else if(moment(this.state.checkIn).isSameOrAfter(moment(date))) {
         this.setState({
@@ -209,6 +247,7 @@ export class App extends React.Component {
     let datePicker;
     let bookButton;
     let subTotal;
+    let container;
 
     if (this.state.showDatePicker) {
       datePicker = <DatePicker
@@ -224,13 +263,13 @@ export class App extends React.Component {
 
     if (this.state.showMainButton) {
       mainButton = <div className={styles.bookingButtonContainer}>
-        <button onClick={this.handleMainButtonClick}>Instant Book</button>
+        <button onClick={this.handleMainButtonClick} className={styles.bookingButton}>Instant Book</button>
         </div>;
     }
 
     if (this.state.showBookButton) {
       bookButton = <div className={styles.bookingButtonContainer}>
-        <button onClick={this.handleBookButtonClick}>Book</button>
+        <button onClick={this.handleBookButtonClick} className={styles.bookingButton}>Book</button>
         </div>;
     }
 
@@ -240,14 +279,24 @@ export class App extends React.Component {
         </div>
     }
 
+    if (mainButton) {
+      container = styles.gridContainer;
+    } else if(bookButton) {
+      container = styles.gridContainerSubTotal;
+    } else {
+      container = styles.gridContainerNoButton;
+    }
+
+
+
     return(
       <div className={styles.appContainer}>
 
-        <div className={(mainButton || bookButton) ? styles.gridContainer : styles.gridContainerNoButton}>
+        <div className={container}>
 
           <div className={styles.priceContainer}>
-            <div>{`$ ${this.state.price_per_night}`}</div>
-            <div>per night</div>
+            <div className={styles.pricePerNight}>{`$ ${this.state.price_per_night}`}</div>
+            <div className={styles.perNight}>per night</div>
           </div>
           <Options handleCheckInOutClick={this.handleCheckInOutClick} appState={this.state} handleGuestChange={this.handleGuestChange}/>
           {mainButton}{subTotal}{bookButton}

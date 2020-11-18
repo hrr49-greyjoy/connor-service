@@ -1,20 +1,37 @@
+@font-face {
+  font-family: 'Calibre-Regular';
+  src: url('../../../dist/fonts/CalibreTest-Regular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Calibre-Medium';
+  src: url('../../../dist/fonts/CalibreTest-Medium.otf') format('opentype');
+}
+
 .appContainer {
   display: block;
   width: 300px;
-  font-family: Calibre, Helvetica, Arial, sans-serif;
+  font-family: Calibre-Regular, Fallback Arial, Helvetica, sans-serif;
   border-style: solid;
   border-width: thin;
-  border-color: #757575;
+  border-color:#ebebeb;
+  outline: none;
 }
 
 .gridContainer {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
+  height: 250px;
 }
 
 .gridContainerNoButton {
   display: grid;
   grid-template-rows: 1fr 1fr;
+  max-height: 250px;
+}
+
+.gridContainerSubTotal {
+  grid-template-rows: 1fr 1fr 2fr;
+
 }
 
 .priceContainer {
@@ -23,15 +40,57 @@
   padding: 10px;
   border-bottom-style: solid;
   border-bottom-width: thin;
-  border-bottom-color: #757575;
+  border-bottom-color: #ebebeb;
+  max-height: 50px;
 }
 
 .bookingButtonContainer {
   display: grid;
   grid-template-columns: 1fr;
   padding: 10px;
+  height: 60px;
 }
 
+.bookingButton {
+  font-family: Calibre-Medium;
+  font-size: 19px;
+  color: #ffffff;
+  background-color: #40d9ac;
+  border: none;
+  outline: none;
+}
+
+.bookingButton:hover {
+  color: #40d9ac;
+  background-color: #ffffff;
+  border: solid;
+  border-color: #40d9ac;
+  cursor: pointer;
+}
 .subTotalContainer {
   display: grid;
+  grid-template-columns: 4fr 1fr;
+  color: #333333;
+  font-family: Calibre-Medium;
+  font-size: 19px;
+  padding: 10px;
+  padding-top: 25px;
+  height: 30px;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: #ebebeb;
+}
+
+
+.perNight {
+  color: #757575;
+  height: fit-content;
+}
+
+.pricePerNight {
+  color: #333333;
+  height: fit-content;
+  font-family: Calibre-Medium;
+  font-weight: bold;
+  font-size: 26px;
 }

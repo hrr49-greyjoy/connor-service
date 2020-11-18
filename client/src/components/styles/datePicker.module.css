@@ -1,3 +1,4 @@
+
 .calendarContainer {
   display: grid;
   grid-template-rows: 1fr 1fr 11fr
@@ -11,28 +12,47 @@
 .monthWrapper {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
+  justify-items: center;
+  align-items: center;
+  background-color: #f3f3f3;
+  font-family: Calibre-Medium;
 }
 
 .weekWrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
-.btnChangeMonth {
-  text-align: center;
+
+.weekDay {
+  font-family: Calibre-Medium;
+  color: #333333;
+  padding-left: 10px;
+  padding-top: 5px;
 }
+
+.btnChangeMonth {
+  position: relative;
+  color: #333333;
+}
+
 
 .day {
   border-style: solid;
   border-width: thin;
-  border-color: #757575;
+  border-color: #ebebeb;
 }
 
 .day:hover {
   cursor: pointer;
+  background-color: #40d9ac;
 }
 
 .dayUnavailable {
-  background-color: #757575;
+  background-color: #ebebeb;
+}
+
+.dayUnavailable:hover {
+  background-color: #ebebeb;
 }
 
 .dayUnavailable:hover {
@@ -41,4 +61,13 @@
 
 .daySelected {
   background-color: #40d9ac;
+}
+
+.dayText {
+  position: absolute;
+}
+
+.slash {
+  position: absolute;
+  color: #757575;
 }

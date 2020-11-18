@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styles from './styles/datePicker.module.css';
 import { isAvailableDate } from '../helpers/isAvailableDate.js';
+import {FaSlash, FaAngleRight, FaAngleLeft} from 'react-icons/fa';
 
 export class DatePicker extends Component {
 
@@ -28,20 +29,31 @@ export class DatePicker extends Component {
       let isAvailable = true;
       let unavailable;
       let selected;
+      let slash;
       if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.props.unavailableDates)) {
         unavailable = styles.dayUnavailable;
         isAvailable = false;
+        slash = <FaSlash className={styles.slash}/>;
       }
 
       if ((startOfMonth.format('YYYY-MM-DD') === this.props.checkIn) || (startOfMonth.format('YYYY-MM-DD') === this.props.checkOut)) {
         selected = styles.daySelected;
       }
 
-      dates.push(<div key={i}
-        className={`${styles.day} ${unavailable} ${selected}`}
-        data-date={startOfMonth.format('YYYY-MM-DD')}
-        data-available={isAvailable}>
+      let currentDate = moment(startOfMonth).format('YYYY-MM-DD');
+
+      dates.push(<div
+        key={i}
+        onClick={() => {
+          let available = isAvailable;
+          let date = currentDate;
+          this.props.handleDateClick(available, date);
+        }}
+        className={`${styles.day} ${unavailable} ${selected}`}>
+        <div className={styles.dayText} >
         {startOfMonth.format('DD')}
+        </div>
+        <div>{slash}</div>
         </div>);
       startOfMonth.add(1, 'days');
     }
@@ -68,7 +80,12 @@ export class DatePicker extends Component {
   render() {
     let backButton;
     if (this.props.now.format('MMMM YYYY') !== moment(this.props.selectedMonth).format('MMMM YYYY')) {
-      backButton = <div id="btn-previous-month"  className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}>{"<"}</div>
+      backButton = <div
+        id="btn-previous-month"
+        className={styles.btnChangeMonth}
+        onClick={(e) => this.props.handleChangeMonth(e)}>
+        <FaAngleLeft/>
+        </div>
     } else {
       backButton = <div></div>
     }
@@ -78,20 +95,20 @@ export class DatePicker extends Component {
         <div className={styles.monthWrapper}>
          {backButton}
           <div>{this.props.selectedMonth.format('MMMM YYYY')}</div>
-          <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}>{">"}</div>
+          <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}><FaAngleRight/></div>
         </div>
 
         <div className={styles.weekWrapper}>
-          <div>S</div>
-          <div>M</div>
-          <div>T</div>
-          <div>W</div>
-          <div>T</div>
-          <div>F</div>
-          <div>S</div>
+          <div className={styles.weekDay}>S</div>
+          <div className={styles.weekDay}>M</div>
+          <div className={styles.weekDay}>T</div>
+          <div className={styles.weekDay}>W</div>
+          <div className={styles.weekDay}>T</div>
+          <div className={styles.weekDay}>F</div>
+          <div className={styles.weekDay}>S</div>
         </div>
 
-        <div className={styles.dateWrapper} onClick={this.props.handleDateClick}>{this.state.dates.map((date) => date)}</div>
+        <div className={styles.dateWrapper} >{this.state.dates.map((date) => date)}</div>
 
       </div>
     )
