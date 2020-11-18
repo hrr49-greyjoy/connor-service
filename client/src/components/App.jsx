@@ -67,6 +67,15 @@ export class App extends React.Component {
     }, callback());
   }
 
+  removeCalendarShowMainBook() {
+    this.setState( {
+      showMainButton: true,
+      showDatePicker: false,
+      showBookButton: false,
+      showSubTotal: false
+    });
+  }
+
   closeCalendarAddBook() {
     getPricingByDates(this.state.checkIn, this.state.checkOut, this.state.guests)
       .then((results) => {

@@ -4,7 +4,6 @@ const getPricing = function(data, query) {
   let result = {};
 
   result.price_per_night = data[0].price;
-
   let count = 1;
   let start = moment(query.check_in);
   let end = moment(query.check_out);

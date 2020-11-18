@@ -14,6 +14,7 @@
   border-style: solid;
   border-width: thin;
   border-color:#ebebeb;
+  outline: none;
 }
 
 .gridContainer {
@@ -29,8 +30,7 @@
 }
 
 .gridContainerSubTotal {
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  max-height: 250px;
+  grid-template-rows: 1fr 1fr 2fr;
 
 }
 
@@ -41,12 +41,14 @@
   border-bottom-style: solid;
   border-bottom-width: thin;
   border-bottom-color: #ebebeb;
+  max-height: 50px;
 }
 
 .bookingButtonContainer {
   display: grid;
   grid-template-columns: 1fr;
   padding: 10px;
+  height: 50px;
 }
 
 .bookingButton {
@@ -67,6 +69,11 @@
 }
 .subTotalContainer {
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 50px;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: #ebebeb;
 }
 
 .perNight {
