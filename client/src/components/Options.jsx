@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styles from './styles/options.module.css';
 import moment from 'moment';
+import {FaPlus, FaMinus} from 'react-icons/fa';
 
 export class Options extends Component {
 
@@ -39,9 +40,9 @@ export class Options extends Component {
         <div className={styles.check1}>Guests</div>
 
         <div className={styles.incrementCount}>
-          <div onClick={(e) => this.props.handleGuestChange(e)}>-</div>
+          <div id="decrement" onClick={(e) => this.props.handleGuestChange(e)}><FaMinus size={10}/></div>
           <div>{this.props.appState.guests}</div>
-          <div onClick={(e) => this.props.handleGuestChange(e)}>+</div>
+          <div id="increment" onClick={(e) => this.props.handleGuestChange(e)}><FaPlus size={10} /></div>
         </div>
 
       </div>

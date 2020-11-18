@@ -91,17 +91,35 @@ export class App extends React.Component {
   }
 
   handleGuestChange(event) {
-    if (event.target.innerText === '+' && this.state.guests < 8) {
+    if (event.currentTarget.id === 'increment' && this.state.guests < 8) {
       let increment = this.state.guests + 1;
       this.setState({
         guests: increment
-      })
+      }, () => {
+        if (this.state.checkIn && this.state.checkOut) {
+          getPricingByDates()
+            .then((results) => {
+              this.setState({
+                price_per_night: results.data.price_per_night
+              });
+            });
+        }
+      });
     }
-    if (event.target.innerText === '-' && this.state.guests > 0) {
+    if (event.currentTarget.id === 'decrement' && this.state.guests > 0) {
       let decrement = this.state.guests - 1;
       this.setState({
         guests: decrement
-      })
+      }, () => {
+        if (this.state.checkIn && this.state.checkOut) {
+          getPricingByDates()
+            .then((results) => {
+              this.setState({
+                price_per_night: results.data.price_per_night
+              });
+            });
+        }
+      });
     }
   }
 

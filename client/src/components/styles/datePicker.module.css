@@ -1,3 +1,4 @@
+
 .calendarContainer {
   display: grid;
   grid-template-rows: 1fr 1fr 11fr
@@ -14,12 +15,21 @@
   justify-items: center;
   align-items: center;
   background-color: #f3f3f3;
+  font-family: Calibre-Medium;
 }
 
 .weekWrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
+
+.weekDay {
+  font-family: Calibre-Medium;
+  color: #333333;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
 .btnChangeMonth {
   position: relative;
   color: #333333;
@@ -34,9 +44,14 @@
 
 .day:hover {
   cursor: pointer;
+  background-color: #40d9ac;
 }
 
 .dayUnavailable {
+  background-color: #ebebeb;
+}
+
+.dayUnavailable:hover {
   background-color: #ebebeb;
 }
 

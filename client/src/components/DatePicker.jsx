@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styles from './styles/datePicker.module.css';
 import { isAvailableDate } from '../helpers/isAvailableDate.js';
-import {FaSlash} from 'react-icons/fa';
-import {BsFillCaretLeftFill, BsFillCaretRightFill} from 'react-icons/bs';
+import {FaSlash, FaAngleRight, FaAngleLeft} from 'react-icons/fa';
 
 export class DatePicker extends Component {
 
@@ -85,7 +84,7 @@ export class DatePicker extends Component {
         id="btn-previous-month"
         className={styles.btnChangeMonth}
         onClick={(e) => this.props.handleChangeMonth(e)}>
-        <BsFillCaretLeftFill/>
+        <FaAngleLeft/>
         </div>
     } else {
       backButton = <div></div>
@@ -96,17 +95,17 @@ export class DatePicker extends Component {
         <div className={styles.monthWrapper}>
          {backButton}
           <div>{this.props.selectedMonth.format('MMMM YYYY')}</div>
-          <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}><BsFillCaretRightFill/></div>
+          <div id="btn-next-month" className={styles.btnChangeMonth} onClick={(e) => this.props.handleChangeMonth(e)}><FaAngleRight/></div>
         </div>
 
         <div className={styles.weekWrapper}>
-          <div>S</div>
-          <div>M</div>
-          <div>T</div>
-          <div>W</div>
-          <div>T</div>
-          <div>F</div>
-          <div>S</div>
+          <div className={styles.weekDay}>S</div>
+          <div className={styles.weekDay}>M</div>
+          <div className={styles.weekDay}>T</div>
+          <div className={styles.weekDay}>W</div>
+          <div className={styles.weekDay}>T</div>
+          <div className={styles.weekDay}>F</div>
+          <div className={styles.weekDay}>S</div>
         </div>
 
         <div className={styles.dateWrapper} >{this.state.dates.map((date) => date)}</div>
