@@ -37,6 +37,9 @@ export class App extends React.Component {
 
   componentDidMount() {
     getDailyPrice()
+    .catch((err) => {
+      if (err) throw err;
+    })
     .then((results) => {
       this.setState({
         price_per_night: results.data.price_per_night
