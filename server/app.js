@@ -36,3 +36,5 @@ app.get('/api/camps/:id/reservation', (req, res) => {
     })
 });
 
+
+module.exports = app;

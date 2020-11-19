@@ -7,3 +7,7 @@ export const getBadDates = () => {
 export const getPricingByDates = (checkIn, checkOut, guests) => {
   return axios.get(`/api/camps/1/reservation?check_in=${checkIn}&check_out=${checkOut}&guests=${guests}`);
 };
+
+export const getDailyPrice = () => {
+  return axios.get('/api/camps/1/reservation');
+}

@@ -17,12 +17,6 @@
   outline: none;
 }
 
-.gridContainer {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  height: 250px;
-}
-
 .gridContainerNoButton {
   display: grid;
   grid-template-rows: 1fr 1fr;

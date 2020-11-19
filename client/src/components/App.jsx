@@ -4,7 +4,7 @@ import {Options} from './Options.jsx';
 import styles from './styles/app.module.css';
 import moment from 'moment';
 import {isValidSubmission} from '../helpers/isValidSubmission.js';
-import {getBadDates, getPricingByDates} from '../helpers/dataHandlers.js';
+import {getBadDates, getPricingByDates, getDailyPrice} from '../helpers/dataHandlers.js';
 
 export class App extends React.Component {
 
@@ -33,10 +33,17 @@ export class App extends React.Component {
     this.handleCheckInOutClick = this.handleCheckInOutClick.bind(this);
     this.handleDateClick = this.handleDateClick.bind(this);
     this.handleChangeMonth = this.handleChangeMonth.bind(this);
+    this.removeCalendarShowMainBook = this.removeCalendarShowMainBook.bind(this);
+
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount() {
-    getPricingByDates()
+    getDailyPrice()
+    .catch((err) => {
+      if (err) throw err;
+    })
     .then((results) => {
       this.setState({
         price_per_night: results.data.price_per_night
@@ -51,6 +58,21 @@ export class App extends React.Component {
         unavailableDates: results.data
       });
     })
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.removeCalendarShowMainBook();
+    }
   }
 
   removeInstantBookShowCalendar() {
@@ -67,12 +89,15 @@ export class App extends React.Component {
     }, callback());
   }
 
-  removeCalendarShowMainBook() {
+  removeCalendarShowMainBook(event) {
     this.setState( {
       showMainButton: true,
       showDatePicker: false,
       showBookButton: false,
-      showSubTotal: false
+      showSubTotal: false,
+      currentPicker: null
+    }, () => {
+      console.log(this.state);
     });
   }
 
@@ -279,18 +304,15 @@ export class App extends React.Component {
         </div>
     }
 
-    if (mainButton) {
-      container = styles.gridContainer;
-    } else if(bookButton) {
+    if (bookButton) {
       container = styles.gridContainerSubTotal;
     } else {
       container = styles.gridContainerNoButton;
     }
 
 
-
     return(
-      <div className={styles.appContainer}>
+      <span className={styles.appContainer} ref={this.setWrapperRef}>
 
         <div className={container}>
 
@@ -303,7 +325,7 @@ export class App extends React.Component {
 
         </div>
         {datePicker}
-      </div>
+      </span>
     )
   }
 }
