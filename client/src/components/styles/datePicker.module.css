@@ -35,6 +35,9 @@
   color: #333333;
 }
 
+.btnChangeMonth:hover {
+  cursor: pointer;
+}
 
 .day {
   font-family: Calibre-Regular;
@@ -76,4 +79,10 @@
 .slash {
   position: absolute;
   color: #757575;
+}
+
+.loadingIcon1 {
+  width: 20%;
+  margin: auto;
+  margin-bottom: 150px;
 }

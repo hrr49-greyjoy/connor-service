@@ -49,3 +49,7 @@
   border-bottom-color: #ebebeb;
   border-bottom-width: thin;
 }
+
+.plusMinusButton:hover {
+  cursor: pointer;
+}

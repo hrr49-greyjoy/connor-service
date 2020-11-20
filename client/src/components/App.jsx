@@ -281,7 +281,7 @@ export class App extends React.Component {
     let container;
 
     if (this.state.showDatePicker) {
-      datePicker = <AnimateHeight duration={500} height={this.state.height}>
+      datePicker = <AnimateHeight duration={800} height={this.state.height}>
       <DatePicker
         changeDatePickerHeight={this.changeDatePickerHeight}
         handleDateClick={this.handleDateClick}
@@ -322,17 +322,13 @@ export class App extends React.Component {
 
     return(
       <span className={styles.appContainer} ref={this.setWrapperRef}>
-
-
         <div className={container}>
-
           <div className={styles.priceContainer}>
             <div className={styles.pricePerNight}>{`$ ${this.state.price_per_night}`}</div>
             <div className={styles.perNight}>per night</div>
           </div>
           <Options handleCheckInOutClick={this.handleCheckInOutClick} appState={this.state} handleGuestChange={this.handleGuestChange}/>
           {mainButton}{subTotal}{bookButton}
-
         </div>
         {datePicker}
       </span>

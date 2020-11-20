@@ -40,9 +40,9 @@ export class Options extends Component {
         <div className={styles.check1}>Guests</div>
 
         <div className={styles.incrementCount}>
-          <div id="decrement" onClick={(e) => this.props.handleGuestChange(e)}><FaMinus size={10}/></div>
+          <div id="decrement" onClick={(e) => this.props.handleGuestChange(e)}><FaMinus size={10} className={styles.plusMinusButton}/></div>
           <div>{this.props.appState.guests}</div>
-          <div id="increment" onClick={(e) => this.props.handleGuestChange(e)}><FaPlus size={10} /></div>
+          <div id="increment" onClick={(e) => this.props.handleGuestChange(e)}><FaPlus size={10} className={styles.plusMinusButton}/></div>
         </div>
 
       </div>

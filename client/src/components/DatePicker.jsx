@@ -3,6 +3,8 @@ import moment from 'moment';
 import styles from './styles/datePicker.module.css';
 import { isAvailableDate } from '../helpers/isAvailableDate.js';
 import {FaSlash, FaAngleRight, FaAngleLeft} from 'react-icons/fa';
+import { css } from '@emotion/core';
+import DotLoader from 'react-spinners/DotLoader';
 
 export class DatePicker extends Component {
 
@@ -64,7 +66,7 @@ export class DatePicker extends Component {
   componentDidMount() {
     this.props.changeDatePickerHeight();
     let dates = this.createDates(this.props.selectedMonth);
-    setTimeout(() => this.setState({ dates }), 500);
+    setTimeout(() => this.setState({ dates }), 800);
   }
 
   componentWillUnmount() {
@@ -92,6 +94,10 @@ export class DatePicker extends Component {
     } else {
       backButton = <div></div>
     }
+    let loadingIcon1;
+    if (!this.state.dates.length) {
+      loadingIcon1 = <div className={styles.loadingIcon1}><DotLoader color={'#757575'}/></div>;
+    }
     return(
       <div className={styles.calendarContainer}>
 
@@ -110,7 +116,7 @@ export class DatePicker extends Component {
           <div className={styles.weekDay}>F</div>
           <div className={styles.weekDay}>S</div>
         </div>
-
+        {loadingIcon1}
         <div className={styles.dateWrapper} >{this.state.dates.map((date) => date)}</div>
 
       </div>
