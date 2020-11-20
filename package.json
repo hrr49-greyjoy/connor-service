@@ -28,11 +28,11 @@
     "mysql": "^2.18.1",
     "random": "^2.2.0",
     "react": "^17.0.1",
+    "react-animate-height": "^2.0.23",
     "react-dom": "^17.0.1",
     "react-icons": "^3.11.0",
     "react-test-renderer": "^17.0.1",
     "style-loader": "^2.0.0",
-    "styled-components": "^5.2.1",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.2.0"
   },

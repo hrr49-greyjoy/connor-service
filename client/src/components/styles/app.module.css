@@ -88,3 +88,8 @@
   font-weight: bold;
   font-size: 26px;
 }
+
+.reactSlidedown {
+  transition-duration: .5s;
+  transition-timing-function: ease-in-out;
+}

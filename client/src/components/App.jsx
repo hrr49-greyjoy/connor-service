@@ -5,6 +5,7 @@ import styles from './styles/app.module.css';
 import moment from 'moment';
 import {isValidSubmission} from '../helpers/isValidSubmission.js';
 import {getBadDates, getPricingByDates, getDailyPrice} from '../helpers/dataHandlers.js';
+import AnimateHeight from 'react-animate-height';
 
 export class App extends React.Component {
 
@@ -25,6 +26,7 @@ export class App extends React.Component {
       subTotal: null,
       selectedMonth: moment(),
       now: moment(),
+      height: 0
     };
 
     this.handleMainButtonClick = this.handleMainButtonClick.bind(this);
@@ -37,6 +39,7 @@ export class App extends React.Component {
 
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.changeDatePickerHeight = this.changeDatePickerHeight.bind(this);
   }
 
   componentDidMount() {
@@ -96,8 +99,6 @@ export class App extends React.Component {
       showBookButton: false,
       showSubTotal: false,
       currentPicker: null
-    }, () => {
-      console.log(this.state);
     });
   }
 
@@ -111,6 +112,13 @@ export class App extends React.Component {
           showSubTotal: true
         })
       })
+  }
+
+  changeDatePickerHeight() {
+    let height = this.state.height === 0 ? 'auto' : 0;
+    this.setState({
+      height
+    });
   }
 
   handleMainButtonClick() {
@@ -190,9 +198,7 @@ export class App extends React.Component {
           this.removeInstantBookShowCalendar();
         })
       }
-
     });
-
   }
 
   handleDateClick(available, date) {
@@ -275,15 +281,18 @@ export class App extends React.Component {
     let container;
 
     if (this.state.showDatePicker) {
-      datePicker = <DatePicker
-      handleDateClick={this.handleDateClick}
-      checkIn={this.state.checkIn}
-      checkOut={this.state.checkOut}
-      unavailableDates={this.state.unavailableDates}
-      handleChangeMonth={this.handleChangeMonth}
-      selectedMonth={this.state.selectedMonth}
-      now={this.state.now}
-      />;
+      datePicker = <AnimateHeight duration={500} height={this.state.height}>
+      <DatePicker
+        changeDatePickerHeight={this.changeDatePickerHeight}
+        handleDateClick={this.handleDateClick}
+        checkIn={this.state.checkIn}
+        checkOut={this.state.checkOut}
+        unavailableDates={this.state.unavailableDates}
+        handleChangeMonth={this.handleChangeMonth}
+        selectedMonth={this.state.selectedMonth}
+        now={this.state.now}
+      />
+      </AnimateHeight>;
     }
 
     if (this.state.showMainButton) {
@@ -313,6 +322,7 @@ export class App extends React.Component {
 
     return(
       <span className={styles.appContainer} ref={this.setWrapperRef}>
+
 
         <div className={container}>
 

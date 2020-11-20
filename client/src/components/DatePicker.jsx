@@ -12,6 +12,7 @@ export class DatePicker extends Component {
     this.state = {
       dates: []
     }
+    this.createDates = this.createDates.bind(this);
   }
 
   createDates(refDate) {
@@ -33,7 +34,7 @@ export class DatePicker extends Component {
       if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.props.unavailableDates)) {
         unavailable = styles.dayUnavailable;
         isAvailable = false;
-        slash = <FaSlash className={styles.slash}/>;
+        slash = <FaSlash className={styles.slash} size={20}/>;
       }
 
       if ((startOfMonth.format('YYYY-MM-DD') === this.props.checkIn) || (startOfMonth.format('YYYY-MM-DD') === this.props.checkOut)) {
@@ -57,20 +58,22 @@ export class DatePicker extends Component {
         </div>);
       startOfMonth.add(1, 'days');
     }
-
     return dates;
   }
 
   componentDidMount() {
-      let dates = this.createDates(this.props.selectedMonth);
-      this.setState({
-        dates
-      });
+    this.props.changeDatePickerHeight();
+    let dates = this.createDates(this.props.selectedMonth);
+    setTimeout(() => this.setState({ dates }), 500);
+  }
+
+  componentWillUnmount() {
+    this.props.changeDatePickerHeight();
   }
 
   componentDidUpdate() {
     let dates = this.createDates(this.props.selectedMonth);
-    if (JSON.stringify(dates) !== JSON.stringify(this.state.dates)) {
+    if (JSON.stringify(dates) !== JSON.stringify(this.state.dates) && this.state.dates.length) {
       this.setState({
         dates
       });
