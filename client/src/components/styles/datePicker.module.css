@@ -35,41 +35,54 @@
   color: #333333;
 }
 
+.btnChangeMonth:hover {
+  cursor: pointer;
+}
 
 .day {
-  padding-left: 12px;
-  padding-top: 10px;
+  font-family: Calibre-Regular;
+  padding-left: 11px;
+  padding-top: 11px;
   border-style: solid;
   border-width: thin;
   border-color: #ebebeb;
+  color: #333333;
 }
 
 .day:hover {
   cursor: pointer;
   background-color: #40d9ac;
+  color: #ffffff;
 }
 
 .dayUnavailable {
   background-color: #ebebeb;
+  color: #757575;
 }
 
 .dayUnavailable:hover {
   background-color: #ebebeb;
-}
-
-.dayUnavailable:hover {
   cursor: default;
+  color: #757575;
 }
 
 .daySelected {
   background-color: #40d9ac;
+  color: #ffffff;
 }
 
 .dayText {
   position: absolute;
+  font-size: 19px;
 }
 
 .slash {
   position: absolute;
   color: #757575;
+}
+
+.loadingIcon1 {
+  width: 20%;
+  margin: auto;
+  margin-bottom: 150px;
 }

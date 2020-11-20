@@ -3,6 +3,8 @@ import moment from 'moment';
 import styles from './styles/datePicker.module.css';
 import { isAvailableDate } from '../helpers/isAvailableDate.js';
 import {FaSlash, FaAngleRight, FaAngleLeft} from 'react-icons/fa';
+import { css } from '@emotion/core';
+import DotLoader from 'react-spinners/DotLoader';
 
 export class DatePicker extends Component {
 
@@ -12,6 +14,7 @@ export class DatePicker extends Component {
     this.state = {
       dates: []
     }
+    this.createDates = this.createDates.bind(this);
   }
 
   createDates(refDate) {
@@ -33,7 +36,7 @@ export class DatePicker extends Component {
       if (!isAvailableDate(startOfMonth.format('YYYY-MM-DD'), this.props.unavailableDates)) {
         unavailable = styles.dayUnavailable;
         isAvailable = false;
-        slash = <FaSlash className={styles.slash}/>;
+        slash = <FaSlash className={styles.slash} size={20}/>;
       }
 
       if ((startOfMonth.format('YYYY-MM-DD') === this.props.checkIn) || (startOfMonth.format('YYYY-MM-DD') === this.props.checkOut)) {
@@ -57,20 +60,22 @@ export class DatePicker extends Component {
         </div>);
       startOfMonth.add(1, 'days');
     }
-
     return dates;
   }
 
   componentDidMount() {
-      let dates = this.createDates(this.props.selectedMonth);
-      this.setState({
-        dates
-      });
+    this.props.changeDatePickerHeight();
+    let dates = this.createDates(this.props.selectedMonth);
+    setTimeout(() => this.setState({ dates }), 800);
+  }
+
+  componentWillUnmount() {
+    this.props.changeDatePickerHeight();
   }
 
   componentDidUpdate() {
     let dates = this.createDates(this.props.selectedMonth);
-    if (JSON.stringify(dates) !== JSON.stringify(this.state.dates)) {
+    if (JSON.stringify(dates) !== JSON.stringify(this.state.dates) && this.state.dates.length) {
       this.setState({
         dates
       });
@@ -88,6 +93,10 @@ export class DatePicker extends Component {
         </div>
     } else {
       backButton = <div></div>
+    }
+    let loadingIcon1;
+    if (!this.state.dates.length) {
+      loadingIcon1 = <div className={styles.loadingIcon1}><DotLoader color={'#757575'}/></div>;
     }
     return(
       <div className={styles.calendarContainer}>
@@ -107,7 +116,7 @@ export class DatePicker extends Component {
           <div className={styles.weekDay}>F</div>
           <div className={styles.weekDay}>S</div>
         </div>
-
+        {loadingIcon1}
         <div className={styles.dateWrapper} >{this.state.dates.map((date) => date)}</div>
 
       </div>
