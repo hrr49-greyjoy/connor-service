@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const random = require('random');
 const moment = require('moment');
 const {sql} = require('./config.js');
+const faker = require('faker');
 
 //THIS SCRIPT USES CREDENTIALS FROM CONFIG
 //PLEASE REPLACE CREDENTIALS WITH YOUR LOCAL CREDENTIALS TO RUN
@@ -17,7 +18,7 @@ let  connection = mysql.createConnection({
 
 connection = Promise.promisifyAll(connection);
 
-const randomBookingGenerator = (dates, connection) => {
+const randomBookingGenerator = (dates, connection, id) => {
 
   let promises1 = [];
 
@@ -35,8 +36,8 @@ const randomBookingGenerator = (dates, connection) => {
     let price = 20 * (tripLength + 1);
 
     let queryString1 = `INSERT INTO RESERVATIONS (check_in, check_out, guests, total_price, listing_id)
-    VALUES (?, ?, ?, ?, 1)`;
-    promises1.push(connection.queryAsync(queryString1, [check_in, check_out, guests, price]));
+    VALUES (?, ?, ?, ?, ?)`;
+    promises1.push(connection.queryAsync(queryString1, [check_in, check_out, guests, price, id]));
 
     i += tripLength + 1;
   }
@@ -94,9 +95,19 @@ connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
 })
 .then(() => {
   let queryString = `INSERT INTO listings (name, description, price)
-    VALUES (?, ?, 20);`
+    VALUES (?, ?, ?);`;
 
-    return connection.queryAsync(queryString, ['Mountain Park', 'luxurious glamping spot']);
+  let promises = [];
+
+  for (let i = 0; i < 100; i++) {
+    let listingName = faker.address.county();
+    let description = faker.company.catchPhrase();
+    let price = random.int(min = 20, max = 150);
+    promises.push(connection.queryAsync(queryString, [listingName, description, price]));
+  }
+
+  return Promise.all(promises);
+
 })
 .catch((err) => {
   if (err) throw err;
@@ -104,7 +115,11 @@ connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
 .then(() => {
   //GENERATE BOOKINGS
   let dates = dateGenerator(numberOfDays);
-  return randomBookingGenerator(dates, connection);
+  let promises = [];
+  for (let i = 1; i <= 100; i++) {
+    randomBookingGenerator(dates, connection, i);
+  }
+  return Promise.all(promises);
 })
 .catch((err) => {
   if (err) throw err;
