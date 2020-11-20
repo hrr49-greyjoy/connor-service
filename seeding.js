@@ -75,7 +75,7 @@ connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
     price DOUBLE,
     PRIMARY KEY (id)
   );`;
-  return connection.query(queryString)
+  return connection.queryAsync(queryString)
 })
 .catch((err) => {
   if (err) throw err;
@@ -117,7 +117,7 @@ connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
   let dates = dateGenerator(numberOfDays);
   let promises = [];
   for (let i = 1; i <= 100; i++) {
-    randomBookingGenerator(dates, connection, i);
+    promises.push(randomBookingGenerator(dates, connection, i));
   }
   return Promise.all(promises);
 })
