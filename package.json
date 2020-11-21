@@ -8,9 +8,11 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "start": "nodemon server/app.js",
+    "start": "node server/app.js",
+    "start:dev": "nodemon server/app.js",
     "test": "jest",
-    "build-dev": "npx webpack --watch",
+    "build:dev": "npx webpack  --mode=development --watch",
+    "build": "npx webpack --mode=production",
     "seed": "node ./seeding.js"
   },
   "dependencies": {
