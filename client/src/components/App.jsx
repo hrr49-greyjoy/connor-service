@@ -3,7 +3,7 @@ import {DatePicker} from './DatePicker.jsx';
 import {Options} from './Options.jsx';
 import styles from './styles/app.module.css';
 import moment from 'moment';
-import {isValidSubmission} from '../helpers/isValidSubmission.js';
+import {isValidSubmission} from '../helpers/isValidsubmission.js';
 import {getBadDates, getPricingByDates, getDailyPrice} from '../helpers/dataHandlers.js';
 import AnimateHeight from 'react-animate-height';
 
