@@ -2,18 +2,15 @@ const Promise = require('bluebird');
 const mysql = require('mysql');
 const random = require('random');
 const moment = require('moment');
-const {sql} = require('./config.js');
 const faker = require('faker');
 
-//THIS SCRIPT USES CREDENTIALS FROM CONFIG
-//PLEASE REPLACE CREDENTIALS WITH YOUR LOCAL CREDENTIALS TO RUN
 
 const numberOfDays = 365;
 
 let  connection = mysql.createConnection({
   host     : 'localhost',
-  user     : sql.user,
-  password : sql.password,
+  user     : 'root',
+  password : 'pizza',
 });
 
 connection = Promise.promisifyAll(connection);
@@ -35,7 +32,7 @@ const randomBookingGenerator = (dates, connection, id) => {
     let guests = random.int(min = 1, max = 5);
     let price = 20 * (tripLength + 1);
 
-    let queryString1 = `INSERT INTO RESERVATIONS (check_in, check_out, guests, total_price, listing_id)
+    let queryString1 = `INSERT INTO reservations (check_in, check_out, guests, total_price, listing_id)
     VALUES (?, ?, ?, ?, ?)`;
     promises1.push(connection.queryAsync(queryString1, [check_in, check_out, guests, price, id]));
 
@@ -57,9 +54,9 @@ const dateGenerator = (numberOfDays) => {
 };
 
 
-connection.queryAsync('DROP DATABASE IF EXISTS calendar;')
+connection.queryAsync('DROP DATABASE IF EXISTS CALENDAR;')
 .then(() => {
-  return connection.queryAsync('CREATE DATABASE calendar;')
+  return connection.queryAsync('CREATE DATABASE CALENDAR;')
 })
 .then(() => {
   return connection.queryAsync('USE CALENDAR;')
