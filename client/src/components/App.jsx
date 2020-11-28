@@ -6,6 +6,7 @@ import moment from 'moment';
 import {isValidSubmission} from '../helpers/isValidsubmission.js';
 import {getBadDates, getPricingByDates, getDailyPrice} from '../helpers/dataHandlers.js';
 import AnimateHeight from 'react-animate-height';
+import {FaSlash, FaAngleRight, FaAngleLeft, FaQuestionCircle} from 'react-icons/fa';
 
 export class App extends React.Component {
 
@@ -309,7 +310,11 @@ export class App extends React.Component {
 
     if (this.state.showSubTotal) {
       subTotal  = <div className={styles.subTotalContainer}>
-        <div>Subtotal</div><div>{'$' + this.state.subTotal + '.00'}</div>
+
+          <div>Subtotal</div>
+          <div><FaQuestionCircle className={styles.questionCircle} size={15}/></div>
+
+        <div>{'$' + this.state.subTotal + '.00'}</div>
         </div>
     }
 

@@ -63,7 +63,8 @@
 }
 .subTotalContainer {
   display: grid;
-  grid-template-columns: 4fr 1fr;
+  grid-template-columns: 1fr 4fr 1fr;
+  gap: 5px;
   color: #333333;
   font-family: Calibre-Medium;
   font-size: 19px;
@@ -74,7 +75,6 @@
   border-bottom-width: thin;
   border-bottom-color: #ebebeb;
 }
-
 
 .perNight {
   color: #757575;
@@ -92,4 +92,13 @@
 .reactSlidedown {
   transition-duration: .5s;
   transition-timing-function: ease-in-out;
+}
+
+.questionCircle {
+  color: #ebebeb;
+}
+
+.questionCircle:hover {
+  color: #333333;
+  cursor: pointer;
 }
