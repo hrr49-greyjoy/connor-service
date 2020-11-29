@@ -1,6 +1,7 @@
 import React from 'react';
 import {DatePicker} from './DatePicker.jsx';
 import {Options} from './Options.jsx';
+import {Modal} from './Modal.jsx';
 import styles from './styles/app.module.css';
 import moment from 'moment';
 import {isValidSubmission} from '../helpers/isValidsubmission.js';
@@ -27,7 +28,8 @@ export class App extends React.Component {
       subTotal: null,
       selectedMonth: moment(),
       now: moment(),
-      height: 0
+      height: 0,
+      modalIsOpen: false
     };
 
     this.handleMainButtonClick = this.handleMainButtonClick.bind(this);
@@ -41,6 +43,7 @@ export class App extends React.Component {
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.changeDatePickerHeight = this.changeDatePickerHeight.bind(this);
+    this.openCloseModal = this.openCloseModal.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +77,11 @@ export class App extends React.Component {
   }
 
   handleClickOutside(event) {
+    if (event.target.id === 'overlayer') {
+      return (this.setState({
+        modalIsOpen: false
+      }));
+    }
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.removeCalendarShowMainBook();
     }
@@ -119,6 +127,12 @@ export class App extends React.Component {
     let height = this.state.height === 0 ? 'auto' : 0;
     this.setState({
       height
+    });
+  }
+
+  openCloseModal() {
+    this.setState({
+      modalIsOpen: !this.state.modalIsOpen
     });
   }
 
@@ -312,7 +326,7 @@ export class App extends React.Component {
       subTotal  = <div className={styles.subTotalContainer}>
 
           <div>Subtotal</div>
-          <div><FaQuestionCircle className={styles.questionCircle} size={15}/></div>
+          <div><FaQuestionCircle className={styles.questionCircle} size={15} onClick={this.openCloseModal}/></div>
 
         <div>{'$' + this.state.subTotal + '.00'}</div>
         </div>
@@ -327,6 +341,14 @@ export class App extends React.Component {
 
     return(
       <span className={styles.appContainer} ref={this.setWrapperRef}>
+        <Modal
+          open={this.state.modalIsOpen}
+          openCloseModal={this.openCloseModal}
+          nightlyRate={this.state.price_per_night}
+          checkIn={this.state.checkIn}
+          checkOut={this.state.checkOut}
+          subTotal={this.state.subTotal}
+        />
         <div className={container}>
           <div className={styles.priceContainer}>
             <div className={styles.pricePerNight}>{`$ ${this.state.price_per_night}`}</div>
