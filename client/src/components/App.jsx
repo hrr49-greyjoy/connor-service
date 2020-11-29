@@ -8,6 +8,7 @@ import {isValidSubmission} from '../helpers/isValidsubmission.js';
 import {getBadDates, getPricingByDates, getDailyPrice} from '../helpers/dataHandlers.js';
 import AnimateHeight from 'react-animate-height';
 import {FaSlash, FaAngleRight, FaAngleLeft, FaQuestionCircle} from 'react-icons/fa';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 export class App extends React.Component {
 
@@ -24,7 +25,7 @@ export class App extends React.Component {
       guests: 3,
       currentPicker: null,
       unavailableDates: {},
-      price_per_night: 'loading icon',
+      price_per_night: null,
       subTotal: null,
       selectedMonth: moment(),
       now: moment(),
@@ -294,6 +295,9 @@ export class App extends React.Component {
     let bookButton;
     let subTotal;
     let container;
+    let dailyPrice = !this.state.price_per_night ?
+    <BeatLoader size={12} color={'#333333'}/> :
+    <div className={styles.pricePerNight}>{`$ ${this.state.price_per_night}`}</div>;
 
     if (this.state.showDatePicker) {
       datePicker = <AnimateHeight duration={800} height={this.state.height}>
@@ -338,7 +342,6 @@ export class App extends React.Component {
       container = styles.gridContainerNoButton;
     }
 
-
     return(
       <span className={styles.appContainer} ref={this.setWrapperRef}>
         <Modal
@@ -351,7 +354,7 @@ export class App extends React.Component {
         />
         <div className={container}>
           <div className={styles.priceContainer}>
-            <div className={styles.pricePerNight}>{`$ ${this.state.price_per_night}`}</div>
+            {dailyPrice}
             <div className={styles.perNight}>per night</div>
           </div>
           <Options handleCheckInOutClick={this.handleCheckInOutClick} appState={this.state} handleGuestChange={this.handleGuestChange}/>

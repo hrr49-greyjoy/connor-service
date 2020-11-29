@@ -50,8 +50,10 @@
   font-size: 19px;
   color: #ffffff;
   background-color: #40d9ac;
-  border: none;
+  border: solid;
+  border-color: #40d9ac;
   outline: none;
+  transition: 0.5s;
 }
 
 .bookingButton:hover {
