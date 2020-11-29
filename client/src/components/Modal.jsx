@@ -33,7 +33,7 @@ export const Modal = ({open, openCloseModal, nightlyRate, checkIn, checkOut, sub
   return ReactDom.createPortal(
     <>
       <div className={styles.overLay} id='overlayer'></div>
-      <div className={styles.modal}>
+      <div className={styles.modal} id="subtotal-modal-content">
 
         <div className={styles.separator}>
           <div className={`${styles.itemA} ${styles.header}`}>Subtotal</div>

@@ -83,6 +83,11 @@ export class App extends React.Component {
         modalIsOpen: false
       }));
     }
+
+    if (this.state.modalIsOpen) {
+      return;
+    }
+
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.removeCalendarShowMainBook();
     }
